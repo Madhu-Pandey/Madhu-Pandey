@@ -1,0 +1,41 @@
+    .kuchbhi {
+      position: relative;
+      display: inline-block;
+      /* border-bottom: 1px dotted black; */
+    }
+
+    .kuchbhi .kuchbhitext {
+      visibility: hidden;
+      width: 139px;
+      background-color:#eae8ff;
+      color:#0096FF;
+      text-align: center;
+      border-radius: 6px;
+      /* padding: 5px 0; */
+      padding: .25rem .5rem;
+      max-width: 150px;
+
+      /* Position the tooltip */
+      position: absolute;
+      z-index: 1;
+      bottom: 115%;
+      left: 50%;
+      margin-left: -60px;
+      opacity: 1;
+      -webkit-transition: opacity 0.3s;
+      transition: opacity 0.3s;
+    }
+
+    .kuchbhi .kuchbhitext::after{
+        content: " ";
+        position: absolute;
+        top: 100%; /* At the bottom of the tooltip */
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #eae8ff transparent transparent transparent;
+    }
+    .kuchbhi:hover.kuchbhitext {
+      visibility: visible;
+    }

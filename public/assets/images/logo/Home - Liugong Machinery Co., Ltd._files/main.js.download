@@ -1,0 +1,3668 @@
+/**
+ * Created by jerry.lin-wun on 2018/7/12.
+ */
+;(function ($, undefined) {
+
+    if ($('[data-page]').data('page') !== 'home') return;
+
+    //搜寻设备
+    (function () {
+        var oBox = $('.lookingfor-equipment'),
+            toSearch = oBox.find('.toSearch'),
+            dropdown = oBox.find('.dropdown'),
+            query = {};
+
+        //选择功能
+        // dropdown.find('.dropdown-menu li').on('click',function() {
+        //     var _val = $(this).find('a').text();
+        //     $(this).parents('.dropdown').find('.dropdown-toggle em').text(_val);
+        // });
+
+        // 选择类别
+        oBox.find('ul.dropdown-menu').on('dropdown-menu', function (ev, data) {
+            query[data.menu.data('menu')] = encodeURIComponent(data.val);
+        });
+
+        //开始搜索
+        toSearch.on('click', function () {
+            var urlQuery = '',
+                searchPath = window.siteLang === 'zh-CN' ? '/ch/global/search' : '/global/search';
+            if (query.category) {
+                urlQuery = '?productCategory=' + query.category;
+            }
+            if (query.industry) {
+                urlQuery += (urlQuery ? '&' : '?') + 'productIndustry=' + query.industry;
+            }
+            window.location.href = searchPath + urlQuery; // /global/search
+        });
+    })();
+
+    // //行业解决方案
+    // (function() {
+    //     var swipe = new Swipe({'elem': document.getElementById('solveBanner')}),
+    //         solveBanner = $('#solveBanner');
+    //
+    //     //自动轮播
+    //     solveBanner.carousel({
+    //         'interval': 3000,
+    //         'wrap': true //是否持续轮播
+    //     });
+    //
+    //     // 手势滑动
+    //     swipe.on('left', function() {
+    //         solveBanner.carousel('next');
+    //     });
+    //     swipe.on('right', function() {
+    //         solveBanner.carousel('prev');
+    //     });
+    //
+    // })();
+
+    //更多案例  手机端
+    /*(function() {
+        var swipe = new Swipe({'elem': document.getElementById('Casebanner')}),
+            banner = $('#Casebanner');
+          //自动轮播
+        banner.carousel({
+            'interval': 3000,
+            'wrap': true //是否持续轮播
+        });
+          // 手势滑动
+        swipe.on('left', function() {
+            banner.carousel('next');
+        });
+        swipe.on('right', function() {
+            banner.carousel('prev');
+        });
+    })();*/
+
+    //柳工新闻 手机端
+    (function () {
+        var swipe = new Swipe({ 'elem': document.getElementById('newsBannerMb') }),
+            banner = $('#newsBannerMb');
+
+        //自动轮播
+        banner.carousel({
+            'interval': 3000,
+            'wrap': true //是否持续轮播
+        });
+
+        // 手势滑动
+        swipe.on('left', function () {
+            banner.carousel('next');
+        });
+        swipe.on('right', function () {
+            banner.carousel('prev');
+        });
+    })();
+
+    //搜索经销商 手机端表单提交
+    (function () {
+        var oBox = $('.finddealer'),
+            oBtn = oBox.find('.btn');
+
+        //检验表单内容
+        var checkForm = function checkForm() {
+            var res = {},
+                province = oBox.find('.province'),
+                city = oBox.find('.city'),
+                dealerName = oBox.find('.dealerName');
+
+            if (province.val() === '省份') {
+                res.message = '请选择省份';
+                return res;
+            }
+            if (city.val() === '城市') {
+                res.message = '请选择城市';
+                return res;
+            }
+            if (dealerName.val() === '经销商名字') {
+                res.message = '请选择经销商名字';
+                return res;
+            }
+            res.pass = true;
+            res.message = '验证成功';
+            return res;
+        };
+
+        //上传
+        oBtn.on('click', function () {
+            var checkResult = checkForm();
+
+            if (!checkResult.pass) {
+                layers.alert.open(checkResult.message);
+                return;
+            }
+            window.location.href = 'finddealer.html';
+        });
+    })();
+
+    //联系柳工 手机端表单提交
+    (function () {
+        var oBox = $('.contact-liugong'),
+            oBtn = oBox.find('.btn');
+
+        //检验表单内容
+        var checkForm = function checkForm() {
+            var res = {},
+                contactPurpose = oBox.find('.contactPurpose'),
+                userName = oBox.find('.userName'),
+                corporateName = oBox.find('.corporateName'),
+                userEmail = oBox.find('.userEmail'),
+                userTel = oBox.find('.userTel'),
+                contactInformation = oBox.find('.contactInformation');
+
+            if (contactPurpose.val() === '联系目的') {
+                res.message = '请选择本次联系目的';
+                return res;
+            }
+            if (userName.val() === '') {
+                res.message = '请输入姓名';
+                return res;
+            }
+            if (corporateName.val() === '') {
+                res.message = '请输入公司名称';
+                return res;
+            }
+            if (!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(userEmail.val())) {
+                res.message = '请输入正确的电子邮箱';
+                return res;
+            }
+            if (!/^[1][3,4,5,7,8]\d{9}$/.test(userTel.val())) {
+                res.message = '请输入正确的手机号码';
+                return res;
+            }
+            if (contactInformation.val() === '') {
+                res.message = '请输入详细信息';
+                return res;
+            }
+            res.pass = true;
+            res.message = '验证成功';
+            return res;
+        };
+
+        //上传
+        oBtn.on('click', function () {
+            var checkResult = checkForm();
+
+            if (!checkResult.pass) {
+                layers.alert.open(checkResult.message);
+                return;
+            }
+            layers.alert.open('您已提交成功，<br>我们将会尽快回复您。');
+        });
+    })();
+
+    // 关注柳工
+    (function () {
+
+        // 开启bootstrap tooltip
+        var tooltips = $('.guanzhu-liugong').find('[data-toggle="tooltip"]'),
+            loadedNum = 0;
+        var handleLoaded = function handleLoaded() {
+            loadedNum++;
+            if (loadedNum === tooltips.length) {
+                tooltips.tooltip();
+            }
+        };
+
+        // 预加载tooltip图
+        tooltips.each(function () {
+            var title = $(this).attr('title');
+            if (title.indexOf('<img') === 0) {
+                var image = new Image(),
+                    src = title.match(/src='(.*)'\s/)[1];
+                image.onload = handleLoaded;
+                image.error = handleLoaded;
+                image.src = src;
+                image.className = 'hide';
+                $('body').append(image);
+            }
+        });
+
+        // 当不满6个时，使用水平居中的排列方式
+        var rows = $('.guanzhu-liugong .mix ul.row');
+        if (rows.find('>li').length < 6) {
+            rows.addClass('item-center');
+        }
+    })();
+})(jQuery);
+/**
+ * Created by chenyue on 2018/7/25.
+ */
+$(function ($) {
+
+    if ($('[data-page]').data('page') !== 'finddealer') return;
+
+    /**
+     * 弹窗
+     */
+    var layerModule = new Layer({ selector: '.js-layer-location' });
+
+    /**
+     * 国家、省、产品线 列表
+     * @type {{getCityId}}
+     */
+    var selectModule = function () {
+
+        var countryBtn = $('.js-country-btn'),
+            countryList = $('.js-country-list'),
+            provinceBtn = $('.js-province-btn'),
+            provinceList = $('.js-province-list'),
+            categoryBtn = $('.js-category-btn'),
+            categoryList = $('.js-category-list'),
+            btnChange = $('.js-btn-change'),
+            countryId = null,
+            textConfig = window.siteLang === 'zh-CN' ? {
+            province: '省份',
+            allProvince: '全部省份',
+            productLine: '产品线',
+            allProductLine: '全部产品线',
+            china: '中国',
+            fullScreen: '全屏查看',
+            exitFullScreen: '退出全屏'
+        } : {
+            province: 'State',
+            allProvince: 'All Province',
+            productLine: 'Product Line',
+            allProductLine: 'All Product Line',
+            china: 'China',
+            fullScreen: 'View Full Screen',
+            exitFullScreen: 'Exit Full Screen'
+        },
+            countryName = null,
+            provinceName = textConfig.province,
+            categoryName = textConfig.productLine,
+            cacheCountryData = null,
+            cacheProvinceData = null,
+            center = null; //中心点：已选择的当前国或省的经纬坐标
+
+        // 默认产品线btn是disabled
+        categoryBtn.addClass('disabled');
+
+        // 获取国家列表
+        $.ajax({
+            type: 'get',
+            contentType: 'application/json; charset=utf-8',
+            url: getApiUrl('/finddealer/country'),
+            data: {
+                siteLang: JSON.stringify(window.siteLang || $('html').attr('lang'))
+            },
+            success: function success(res) {
+                if (parseApi(res).code !== 200 && parseApi(res).code !== 304) return;
+                cacheCountryData = parseApi(res).data;
+                renderCountryList(cacheCountryData);
+                $(window).trigger('select.country.geted');
+            },
+            error: function error(err) {
+                console.error(err);
+            }
+        });
+
+        // 为国家列表绑定事件
+        var selectCountry = function selectCountry(tmpId, name, lng, lat, callBack) {
+            if (countryId === tmpId) return;
+            countryId = tmpId;
+            countryName = name;
+            center = { lng: lng, lat: lat };
+            countryBtn.find('em').text(name);
+            provinceName = null;
+            provinceBtn.find('em').text(textConfig.province);
+            provinceList.html('');
+            categoryName = textConfig.productLine;
+            categoryBtn.addClass('disabled').find('em').text(textConfig.productLine);
+            categoryList.html('');
+            mapModule.position(lng, lat, 11);
+
+            // 如果切换的国家是中国，则显示省列表，否则隐藏
+            if (name === textConfig.china) {
+                provinceList.parent().show();
+                categoryBtn.addClass('disabled');
+            } else {
+                provinceList.parent().hide();
+            }
+
+            // 当经销商列表数据和省列表数据都异步加载完成时...
+            var loadedLength = 0;
+            var complete = function complete() {
+                // 主动出发换一换
+                btnChange.trigger('click', { noFetchData: true, from: 'selectCountry', callBack: function callBack() {
+                        // 根据当前选择的国家渲染产品线列表
+                        if (name !== textConfig.china) {
+                            renderCategoryList(getCategoryData({ from: 'selectCountry' }));
+                            categoryBtn.removeClass('disabled');
+                            //alert('render list 222');
+                        }
+                    } });
+                callBack && callBack();
+                $(window).trigger('select.canAuto');
+            };
+            getProvinceData(function (data) {
+                renderProvinceList(data);
+                loadedLength++;
+                loadedLength >= 2 && complete();
+            });
+            dealerModule.getData(function (data) {
+                loadedLength++;
+                loadedLength >= 2 && complete();
+            });
+        };
+        countryList.on('click', 'li a', function () {
+            var item = $(this),
+                tmpId = item.data('country-id');
+            selectCountry(tmpId, item.text(), item.data('country-lng'), item.data('country-lat'));
+        });
+
+        // 为省列表绑定事件
+        var selectProvince = function selectProvince(name, lng, lat) {
+            if (provinceName === name) return;
+            if (!lng || !lat || lng === 'undefined' || lat === 'undefined') {
+                // 当省没有经纬度时，取所在省的第一家经销商的经纬度作为中心点
+                var dealerData = dealerModule.getCacheData();
+                for (var i = 0, length = dealerData.length; i < length; i++) {
+                    var item = dealerData[i];
+                    if (name === item.province) {
+                        lng = item.lng;
+                        lat = item.lat;
+                        // 将获取到的值赋值给省列表中，下次开始就不需要再遍历一次了
+                        provinceList.find('li a').each(function () {
+                            if ($(this).text() === name) {
+                                $(this).attr({ 'data-province-lng': lng, 'data-province-lat': lat });
+                            }
+                        });
+                        break;
+                    }
+                }
+            }
+            provinceName = name;
+            center = { lng: lng, lat: lat };
+            provinceBtn.find('em').text(name);
+            categoryName = textConfig.productLine;
+            categoryBtn.removeClass('disabled').find('em').text(textConfig.productLine);
+            mapModule.position(lng, lat, 11);
+
+            // 根据当前选择的省渲染产品线列表
+            renderCategoryList(getCategoryData());
+
+            // 主动出发换一换
+            btnChange.trigger('click', { noFetchData: true, from: 'selectProvince', province: name });
+        };
+        provinceList.on('click', 'li a', function () {
+            var item = $(this);
+            selectProvince(item.text(), item.data('province-lng'), item.data('province-lat'));
+        });
+
+        // 为产品线列表绑定事件
+        var selectLine = function selectLine(name) {
+            if (categoryName === name) return;
+            categoryName = name;
+            categoryBtn.find('em').text(name);
+            // 主动出发换一换
+            btnChange.trigger('click', {
+                noFetchData: true,
+                from: 'productLine',
+                province: provinceName,
+                category: name,
+                isFilterCountry: countryName !== textConfig.china //是否按照国家来筛选，默认按照省筛选
+            });
+        };
+        categoryList.on('click', 'li a', function () {
+            var item = $(this);
+            selectLine(item.text());
+        });
+
+        // 点击换一换btn
+        var canChange = true;
+        btnChange.on('click', function (ev, opts) {
+            if (!canChange) return;
+            canChange = false;
+            // 对比到筛选的条件有无发生变化
+            // 如果有发生变化则从服务器拉取数据并按距离由近到远排序
+            // 如果没有变化则继续从排序好的数据中吐出三条数据
+            if (btnChange.data('country-id') == countryId && btnChange.data('province-name') == provinceName && btnChange.data('category-name') == categoryName) {
+                dealerModule.showSelect().renderList(opts);
+                setTimeout(function () {
+                    canChange = true;
+                    opts.callBack && opts.callBack();
+                }, 200);
+            } else {
+                //console.log(opts);
+                btnChange.data('country-id', countryId);
+                btnChange.data('province-name', provinceName);
+                btnChange.data('category-name', categoryName);
+
+                var noFetchData = opts && opts.noFetchData ? opts.noFetchData : false;
+                dealerModule.showSelect().getData(noFetchData, function () {
+                    this.sortByDistance(center, categoryName).renderList(opts); //.renderCategoryList().renderProjectList();
+                    canChange = true;
+                    opts.callBack && opts.callBack();
+                });
+            }
+        });
+
+        ////一些辅助方法/////
+        // 渲染国家列表
+        function renderCountryList(data) {
+            var html = '';
+            data.forEach(function (item) {
+                html += '<li><a href="javascript:;" data-country-id="' + item.id + '" data-country-lng="' + item.lng + '" data-country-lat="' + item.lat + '">' + item.name + '</a></li>';
+            });
+            countryList.html(html);
+        };
+        // 获取省数据
+        function getProvinceData(callBack) {
+            $.ajax({
+                type: 'get',
+                contentType: 'application/json; charset=utf-8',
+                url: getApiUrl('/finddealer/province'),
+                data: {
+                    siteLang: JSON.stringify(window.siteLang || $('html').attr('lang')),
+                    countryId: JSON.stringify(countryId)
+                },
+                success: function success(res) {
+                    if (parseApi(res).code !== 200 && parseApi(res).code !== 304) return;
+                    cacheProvinceData = parseApi(res).data;
+                    callBack && callBack(cacheProvinceData);
+                },
+                error: function error(err) {
+                    console.error(err);
+                }
+            });
+        }
+
+        // 渲染省列表
+        function renderProvinceList(data) {
+            var html = '<li><a href="javascript:;">' + textConfig.allProvince + '</a></li>';
+            data.forEach(function (item) {
+                html += '<li><a href="javascript:;" data-province-lng="' + item.lng + '" data-province-lat="' + item.lat + '">' + item.name + '</a></li>';
+            });
+            provinceList.html(html);
+        }
+
+        // 获取产品线数据
+        function getCategoryData(opts) {
+            var result = [],
+                isFilterCountry = opts && opts.from === 'selectCountry'; // 是否按照国家来筛选出产品线数据
+
+            if (!!isFilterCountry || provinceName === textConfig.allProvince) {
+                dealerModule.getCacheData().forEach(function (item) {
+                    result = result.concat(item.category);
+                });
+            } else {
+                dealerModule.getCacheData().forEach(function (item) {
+                    if (!!item.province && item.province.indexOf(provinceName) > -1) {
+                        result = result.concat(item.category);
+                    }
+                });
+            };
+            return unique(result);
+        }
+
+        // 渲染产品线列表
+        function renderCategoryList(data) {
+            var html = '<li><a href="javascript:;">' + textConfig.allProductLine + '</a></li>';
+            data.forEach(function (name) {
+                html += '<li><a href="javascript:;">' + name + '</a></li>';
+            });
+            categoryList.html(html);
+        }
+
+        // 根据当前位置自动选择省市列表
+        function autoSelect(country, province) {
+            console.log('国：' + country + ' , 省：' + province);
+
+            // 自动选择国
+            var autoSelectCountry = function autoSelectCountry(callBack) {
+                for (var i = 0, length = cacheCountryData.length; i < length; i++) {
+                    var item = cacheCountryData[i];
+                    if (country.indexOf(item.name) > -1 || item.name.indexOf(country) > -1) {
+                        selectCountry(item.id, item.name, item.lng, item.lat, callBack); // 选择国
+                        return;
+                    }
+                }
+                $('.js-layer-white').remove(); // 隐藏地图白色遮罩
+            };
+
+            // 自动选择省
+            var autoSelectProvince = function autoSelectProvince() {
+                $(window).one('select.canAuto', function () {
+                    for (var i = 0, length = cacheProvinceData.length; i < length; i++) {
+                        var item = cacheProvinceData[i];
+                        if (province.indexOf(item.name) > -1 || item.name.indexOf(province) > -1) {
+                            selectProvince(item.name, item.lng, item.lat); // 选择省
+                            //btnChange.data('country-id', countryId);
+                            //btnChange.data('province-name', provinceName);
+                            //btnChange.data('category-name', categoryName);
+                            //dealerModule.sortByDistance(center, categoryName).showSelect().renderList();
+                            break;
+                        }
+                    }
+                    $('.js-layer-white').remove(); // 隐藏地图白色遮罩
+                });
+            };
+
+            // 执行选择
+            var handle = function handle() {
+                autoSelectCountry(autoSelectProvince);
+            };
+
+            if (cacheCountryData) {
+                handle();
+            } else {
+                $(window).on('select.country.geted', handle);
+            }
+        };
+
+        return {
+            getCountryId: function getCountryId() {
+                return countryId;
+            },
+            getTextConfig: function getTextConfig() {
+                return textConfig;
+            },
+            autoSelect: autoSelect,
+            createFullScreenBtn: function createFullScreenBtn() {
+                // 在面包屑前增加全屏时显示的logo
+                btnChange.parents('.finddealer').eq(0).find('>.container>.row').prepend('<li class="hidden-xs left logo"><img src="' + $('#header .navbar-brand img:first').clone().attr('src') + '"></li>');
+                // 在换一换后面创建全屏和退出全屏功能
+                btnChange.after('<div class="change btn-full-screen js-btn-full-screen"><span>' + textConfig.fullScreen + '</span><i class="icon-enlarge"></i></div>');
+                return $('.js-btn-full-screen');
+            }
+        };
+    }();
+
+    /**
+     * 搜索 和 定位到当前城市
+     */
+    (function () {
+
+        // 定位到当前城市
+        $('.js-location').on('click', function () {
+            var result = mapModule.locationCurrentCity();
+            if (!result) {
+                alert(window.siteLang === 'zh-CN' ? '定位失败，请设置浏览器开启定位功能。' : 'Localization failed. Please set the browser to enable localization.');
+            }
+            ;
+        });
+    })();
+
+    /**
+     * 经销商
+     * @type {{showSelect, getData, renderList}}
+     */
+    var dealerModule = function () {
+
+        var dealerList = $('.js-dealer-list'),
+            selectList = $('.js-select-list'),
+            next = $('.js-next'),
+            isProgress = false,
+            points = [],
+            // 存放当前经销商列表的坐标
+        cacheAllData = null,
+            // 所有经销商数据，用于存储筛选并计算出距离的结果集
+        cacheFilterData = null,
+            // 换一换时会每次吐出三条数据，该数组里的数据将逐渐减少，用于存储筛选并计算出距离的结果集
+        textConfig = window.siteLang === 'zh-CN' ? {
+            loading: '正在获取数据，请稍后...',
+            loadFail: '数据获取失败，请重试',
+            allProvince: '全部省份',
+            productLine: '产品线',
+            allProductLine: '全部产品线',
+            noQuery: '未查询到数据',
+            corporate: '法人', //法人
+            note: '备注',
+            address: '地址',
+            contact: '联系人',
+            tel: '电话',
+            website: '网站',
+            email: '邮箱',
+            sellingLine: '在售产品线',
+            serviceType: '服务类型',
+            colon: '：'
+        } : {
+            loading: 'Data is being fetched, please wait...',
+            loadFail: 'Data acquisition failed. Please try again',
+            allProvince: 'All Province',
+            productLine: 'Product Line',
+            allProductLine: 'All Product Line',
+            noQuery: 'No data is queried.',
+            corporate: 'Feedback person', //Feedback person
+            note: 'Note',
+            address: 'Address',
+            contact: 'Contact',
+            tel: 'Phone',
+            website: 'Website',
+            email: 'E-mail',
+            sellingLine: 'Product Lines Sold',
+            serviceType: 'Services Offered',
+            colon: ':'
+        };
+
+        // 隐藏经销商列表
+        selectList.hide();
+
+        // 点击箭头展开内容
+        dealerList.on('click', '.js-dealer-item', function () {
+            var showTxt = $(this).find('.hidden-text');
+            if (!$(this).find('.js-btn-arrow').hasClass('active')) {
+                dealerList.find('.js-btn-arrow').removeClass('active');
+                dealerList.find('.box .hidden-text').slideUp(400);
+                $(this).find('.js-btn-arrow').addClass('active');
+                showTxt.stop().slideDown(400);
+
+                // 定位
+                var thisDealerItem = $(this); //$(this).parents('.js-dealer-item').eq(0);
+                mapModule.position(thisDealerItem.data('dealer-lng'), thisDealerItem.data('dealer-lat'), 12);
+            } else {
+                $(this).find('.js-btn-arrow').removeClass('active');
+                showTxt.stop().slideUp(400);
+            }
+        });
+
+        ////一些辅助方法/////
+        // 一次性获取全国经销商数据
+        function getData(noFetchData, callBack) {
+            var _this = this;
+            if (isProgress) {
+                return _this;
+            };
+
+            if (typeof noFetchData === 'function') {
+                callBack = noFetchData;
+                noFetchData = false;
+            }
+
+            if (noFetchData) {
+                //console.log(cacheAllData);
+                cacheFilterData = $.extend(true, [], cacheAllData);
+                callBack && callBack.call(_this, cacheFilterData);
+            } else {
+                isProgress = true;
+                layerModule.text(textConfig.loading).show();
+                $.ajax({
+                    type: 'get',
+                    contentType: 'application/json; charset=utf-8',
+                    url: getApiUrl('/finddealer/dealer'),
+                    data: {
+                        siteLang: JSON.stringify(window.siteLang || $('html').attr('lang')),
+                        countryId: JSON.stringify(selectModule.getCountryId())
+                    },
+                    success: function success(res) {
+                        layerModule.hide();
+                        isProgress = false;
+                        //if (parseApi(res).code !== 200 && parseApi(res).code !== 304) return;
+                        cacheAllData = $.extend(true, [], parseApi(res).data);
+                        cacheFilterData = $.extend(true, [], parseApi(res).data);
+                        //console.log(cacheAllData)
+                        callBack && callBack.call(_this, cacheFilterData);
+                    },
+                    error: function error(err) {
+                        layerModule.text(textConfig.loadFail);
+                        setTimeout(function () {
+                            layerModule.hide();
+                        }, 1000);
+                        isProgress = false;
+                        console.error(err);
+                    }
+                });
+            }
+
+            return this;
+        };
+
+        // 按当前所选国、省作为中心点按距离由远到近排序所有经销商
+        // 返回一个新的经销商数据数组
+        function sortByDistance(center, category) {
+            var result = [];
+            //console.log(category)
+            if (category === textConfig.productLine || category === textConfig.allProductLine) {
+                cacheAllData.forEach(function (item) {
+                    item.distance = mapModule.getDistance({ lng: Number(center.lng), lat: Number(center.lat) }, { lng: item.lng ? Number(item.lng) : 0, lat: item.lat ? Number(item.lat) : 0 });
+                    result.push(item);
+                });
+            } else {
+                cacheAllData.forEach(function (item) {
+                    if ($.inArray(category, item.category) > -1) {
+                        item.distance = mapModule.getDistance({ lng: Number(center.lng), lat: Number(center.lat) }, { lng: item.lng ? Number(item.lng) : 0, lat: item.lat ? Number(item.lat) : 0 });
+                        result.push(item);
+                    }
+                });
+            }
+            // 按照距离从近到远来排序
+            result.sort(sortByProp('distance'));
+            cacheFilterData = result;
+            //cacheAllData = $.extend(true, [], result);
+            return this;
+        };
+
+        // 渲染经销商列表
+        function renderList(callBack) {
+            var html = '',
+                data = [],
+                //用于存放切换国家或省时，过滤之后的数据
+            opts = {};
+
+            // 接受参数项，用来筛选来自国家和省切换时的数据
+            if (callBack && typeof callBack !== 'function') {
+                opts = callBack;
+                if (opts.from === 'selectCountry') {
+                    // 切换国家时，选取全部经销商
+                    data = $.extend(true, [], cacheFilterData);
+                } else if (opts.from === 'selectProvince') {
+                    // 切换省时，选取属于该省的经销商
+                    cacheFilterData.forEach(function (item) {
+                        if (opts.province === textConfig.allProvince || item.province === opts.province) {
+                            data.push(item);
+                        }
+                    });
+                } else if (opts.from === 'productLine') {
+                    // 切换产品线时，选取该 国家或省 下面含有该产品线的经销商
+                    if (opts.isFilterCountry || opts.province === textConfig.allProvince) {
+                        // 按国家筛选
+                        cacheFilterData.forEach(function (item) {
+                            if (opts.category === textConfig.allProductLine || $.inArray(opts.category, item.category) > -1) {
+                                data.push(item);
+                            }
+                        });
+                    } else {
+                        // 按省份筛选
+                        cacheFilterData.forEach(function (item) {
+                            if (item.province === opts.province && (opts.category === textConfig.allProductLine || $.inArray(opts.category, item.category) > -1)) {
+                                data.push(item);
+                            }
+                        });
+                    }
+                }
+            }
+
+            if (!data.length) {
+                // 当没数据时，不渲染
+                alert(textConfig.noQuery);
+                return;
+            }
+
+            // 将过滤之后的数据data显示到地图上
+            points = []; // 用于存储地图上多个marker的数据
+            points.image = '/images/finddealer/marker-normal.png'; // 所有marker采用该自定义icon
+            points.colon = textConfig.colon;
+            for (var index = 0, length = data.length; index < length; index++) {
+                var item = data[index]; //选取一条数据
+                html += '<div class="box s' + (index + 1) + ' col-lg-4 col-md-4 col-sm-4 col-xs-12 clearfix active js-dealer-item" data-dealer-id="' + item.id + '" data-dealer-lat="' + item.lat + '" data-dealer-lng="' + item.lng + '">\
+                            <div class="cont">\
+                                <div class="text-body">\
+                                    <div class="show-text">\
+                                        <h5>' + item.name + '</h5>\
+                                        <div class="des">' + getListHtml(item) + '</div>\
+                                    </div>\
+                                </div>\
+                                <div class="mark-num">' + (index + 1) + '</div>\
+                            </div>\
+                            <div class="btn-arrow text-center js-btn-arrow"><i class="glyphicon glyphicon-menu-up"></i></div>\
+                        </div>';
+                // 保存坐标
+                var point = {
+                    //id: item.id,
+                    lng: Number(item.lng),
+                    lat: Number(item.lat),
+                    infoWindow: {
+                        title: item.name
+                    }
+                };
+
+                // 检查当地址中有 ### 时，代表之前的用作地址，之后的用作备注append到信息窗最后
+                var infos = item.address.split('###');
+                item.address = infos[0];
+                item.note = infos[1];
+
+                if (item.address) {
+                    point.infoWindow[textConfig.address] = {
+                        icon: '/images/finddealer/icon-address.png',
+                        value: item.address
+                    };
+                }
+                if (item.email) {
+                    point.infoWindow[textConfig.email] = {
+                        icon: '/images/finddealer/icon-email.png',
+                        value: item.email
+                    };
+                }
+                if (item.contacts) {
+                    point.infoWindow[textConfig.contact] = {
+                        icon: '/images/finddealer/icon-contact.png',
+                        value: item.contacts
+                    };
+                }
+                if (item.tel && item.tel.length) {
+                    point.infoWindow[textConfig.tel] = {
+                        icon: '/images/finddealer/icon-tel.png',
+                        value: item.tel.join(',')
+                    };
+                }
+                if (item.website) {
+                    // 自动加上a标签
+                    if (item.website.indexOf('</a>') === -1) {
+                        item.website = '<a href="' + item.website + '" target="_blank">' + item.website + '</a>';
+                    }
+                    point.infoWindow[textConfig.website] = {
+                        icon: '/images/finddealer/icon-website.png',
+                        value: item.website
+                    };
+                }
+                if (item.category && item.category.length) {
+                    point.infoWindow[textConfig.sellingLine] = {
+                        icon: '/images/finddealer/icon-lines.png',
+                        value: item.category.join(', ')
+                    };
+                }
+                if (item.services && item.services.length) {
+                    point.infoWindow[textConfig.serviceType] = {
+                        icon: '/images/finddealer/icon-services.png',
+                        value: item.services.join(', ')
+                    };
+                }
+                if (item.note) {
+                    point.infoWindow[textConfig.note] = {
+                        icon: '/images/finddealer/icon-note.png',
+                        value: item.note
+                    };
+                }
+                /*if (item.corporate) {
+                    point.infoWindow[textConfig.corporate] = item.corporate;
+                }*/
+                points.push(point);
+            }
+            ;
+
+            dealerList.html(html);
+            $(window).trigger('map.points.update', { points: points });
+            typeof callBack === 'function' && callBack(points.length);
+            return this;
+        };
+
+        // 列表项list hmlt
+        function getListHtml(item) {
+            var str = '';
+            //str += item.corporate ? '<div class="list"><span class="label">'+ textConfig.corporate +'：</span><em>'+ item.corporate +'</em></div>' : '';
+            str += item.address ? '<div class="list"><span class="label">' + textConfig.address + '：</span><em>' + item.address + '</em></div>' : '';
+            str += item.contacts ? '<div class="list"><span class="label">' + textConfig.contact + '：</span><em>' + item.contacts + '</em></div>' : '';
+
+            // 电话
+            if (item.tel && item.tel.length) {
+                var telStr = '';
+                item.tel.forEach(function (telItem) {
+                    telStr += '<a href="tel: ' + telItem + '">' + telItem + '</a>';
+                });
+                str += '<div class="list"><span class="label">' + textConfig.tel + '：</span><em>' + telStr + '</em></div>';
+            }
+            str += item.email ? '<div class="list"><span class="label">Email：</span><em><a href="mailto:' + item.email + '">' + item.email + '</a></em></div>' : '';
+            str += item.website ? '<div class="list"><span class="label">' + textConfig.website + '：</span><em>' + item.website + '</em></div>' : '';
+
+            str += '<div class="hidden-text">';
+            // 在售产品线
+            if (item.category && item.category.length) {
+                var categoryStr = '';
+                item.category.forEach(function (cate, index) {
+                    categoryStr += index === 0 ? cate : '，' + cate;
+                });
+                str += '<div class="list"><span class="label">' + textConfig.sellingLine + '：</span><em>' + categoryStr + '</em></div>';
+            }
+            // 服务类型
+            if (item.services && item.services.length) {
+                var serviceStr = '';
+                item.services.forEach(function (service, index) {
+                    serviceStr += index === 0 ? service : '，' + service;
+                });
+                str += '<div class="list"><span class="label">' + textConfig.serviceType + '：</span><em>' + serviceStr + '</em></div>';
+            }
+            str += '</div>';
+            return str;
+        };
+
+        return {
+            showSelect: function showSelect() {
+                selectList.show();
+                return this;
+            },
+            getCacheData: function getCacheData() {
+                return cacheAllData;
+            },
+            getData: getData,
+            renderList: renderList,
+            sortByDistance: sortByDistance
+        };
+    }();
+
+    /**
+     * 地图区域
+     */
+    var mapModule = function () {
+
+        var currentCenter = null,
+            textConfig = window.siteLang === 'zh-CN' ? {
+            locationSuccess: '定位成功',
+            locationFail: '定位失败',
+            fullScreen: '全屏查看',
+            exitFullScreen: '退出全屏'
+        } : {
+            locationSuccess: 'Positioning success',
+            locationFail: 'To locate failure',
+            fullScreen: 'View Full Screen',
+            exitFullScreen: 'Exit Full Screen'
+        };
+
+        // 根据屏高修改地图高度
+        var resizeMapSize = function resizeMapSize() {
+            var offset = window.getScreenSize() === 'xs' ? -70 : 0; //偏移量
+            $('.search-map .content').css('height', $(window).height() - $('#header>.navbar-fixed-top').height() - $('.finddealer-wrap .finddealer').height() + offset);
+        };
+        resizeMapSize();
+        $(window).on('resize', resizeMapSize);
+
+        // 为地图区域创建白色遮罩 和 全屏功能
+        $('#allmap').after('<div class="layer-white js-layer-white"></div>');
+        // 创建全屏功能
+        var createFullScreen = function createFullScreen() {
+            var finddealerWrap = $('#main-wrap.finddealer-wrap'),
+                eventName = function () {
+                var isSupportTouch = 'ontouchend' in document ? true : false;
+                return isSupportTouch ? 'touchstart' : 'click';
+            }();
+            // 如果是touch模式，则创建一个透明层用于规避点透触发搜索按钮的bug
+            if (eventName === 'touchstart') {
+                finddealerWrap.before('<div class="js-touch-mask" style="display: none; position: fixed; top: 0; left: 0; z-index: 1031; width: 100%; height: 100%; background-color: #000; opacity: 0;"></div>');
+            }
+            // 在地图内创建全屏按钮节点
+            if (useMapType === 'baidu') {
+                $('#allmap .BMap_stdMpCtrl').append('<div class="view-full-screen ' + eventName + '" title="' + textConfig.fullScreen + '"><i class="icon-enlarge"></i></div>');
+            } else {
+                // bing
+                $('#allmap #MicrosoftNav').append('<div class="view-full-screen bing-full-screen ' + eventName + '" title="' + textConfig.fullScreen + '"><i class="icon-enlarge"></i></div>');
+            };
+            // 下拉选择模块也创建全屏功能按钮节点
+            var selectModuleFullScreenBtn = selectModule.createFullScreenBtn();
+
+            // 添加点击事件
+            var viewFullScreen = finddealerWrap.find('.view-full-screen'),
+                touchMask = $('.js-touch-mask'),
+                touchTimer = null;
+
+            // 查看和退出全屏
+            var handleViewExit = function handleViewExit() {
+                if (finddealerWrap.hasClass('full-screen')) {
+                    finddealerWrap.removeClass('full-screen');
+                    viewFullScreen.attr('title', textConfig.fullScreen).find('i').removeClass('icon-shrink').addClass('icon-enlarge');
+                    selectModuleFullScreenBtn.find('span').text(textConfig.fullScreen).parent().find('i').removeClass('icon-shrink').addClass('icon-enlarge');
+                    mapApi.disableScrollWheelZoom();
+
+                    // 处理touch点透问题
+                    if (eventName === 'touchstart') {
+                        clearTimeout(touchTimer);
+                        touchTimer = setTimeout(function () {
+                            touchMask.hide();
+                        }, 500);
+                    }
+                } else {
+                    finddealerWrap.addClass('full-screen');
+                    viewFullScreen.attr('title', textConfig.exitFullScreen).find('i').removeClass('icon-enlarge').addClass('icon-shrink');
+                    selectModuleFullScreenBtn.find('span').text(textConfig.exitFullScreen).parent().find('i').removeClass('icon-enlarge').addClass('icon-shrink');
+                    mapApi.enableScrollWheelZoom();
+
+                    // 处理touch点透问题
+                    if (eventName === 'touchstart') {
+                        clearTimeout(touchTimer);
+                        touchMask.show();
+                    }
+                }
+                return false;
+            };
+            finddealerWrap.find('.view-full-screen').on(eventName, handleViewExit);
+            selectModuleFullScreenBtn.on(eventName, handleViewExit);
+
+            // Esc快捷键退出全屏
+            $(document).on('keyup', function (event) {
+                var exitFullScreen = function exitFullScreen() {
+                    if (finddealerWrap.hasClass('full-screen')) {
+                        finddealerWrap.removeClass('full-screen');
+                        viewFullScreen.attr('title', textConfig.fullScreen).find('i').removeClass('icon-shrink').addClass('icon-enlarge');
+                        selectModuleFullScreenBtn.find('span').text(textConfig.fullScreen).parent().find('i').removeClass('icon-shrink').addClass('icon-enlarge');
+                        mapApi.disableScrollWheelZoom();
+
+                        // 处理touch点透问题
+                        if (eventName === 'touchstart') {
+                            clearTimeout(touchTimer);
+                            touchTimer = setTimeout(function () {
+                                touchMask.hide();
+                            }, 500);
+                        }
+                    }
+                };
+                switch (event.keyCode) {
+                    case 27:
+                    case 96:
+                        exitFullScreen();
+                        break;
+                }
+            });
+        };
+
+        // 使用地图通用api
+        // latOffset 纬度偏移量,默认0，目前只对百度地图有效
+        var mapApi = new MapApi({ el: 'allmap', mapType: useMapType, markerPath: markerPath,
+            infoSize: {
+                width: [550, 420, 300],
+                height: [320, 270, 220]
+            }
+        }); //latOffset: -.15
+        mapApi.initMap({
+            center: { lat: 39.915, lng: 116.404 },
+            zoom: 11
+        }, function () {
+            // 开启定位，获取当前用户省、市
+            this.getCurrentPosition(handlePositionSuccess, handlePositionError);
+            // 定位成功的回调
+            function handlePositionSuccess(position) {
+                // console.log(position)
+                // 通过后端获取当前国家名称
+                $.ajax({
+                    type: 'get',
+                    contentType: 'application/json; charset=utf-8',
+                    url: getApiUrl('/finddealer/location'),
+                    data: {
+                        siteLang: JSON.stringify(window.siteLang || $('html').attr('lang'))
+                    },
+                    success: function success(res) {
+                        //if (parseApi(res).code !== 200 && parseApi(res).code !== 304) return;
+                        var country = parseApi(res).data.name;
+                        setTimeout(function () {
+                            //layerModule.hide();
+                            layerModule.text(textConfig.locationSuccess);
+                            setTimeout(function () {
+                                layerModule.hide();
+                                selectModule.autoSelect(country, position.province);
+                            }, 500);
+                        }, 500);
+                    },
+                    error: function error(err) {
+                        handlePositionError();
+                    }
+                });
+                currentCenter = { lat: position.lat, lng: position.lng };
+                mapModule.locationCurrentCity(); //定位到用户当前位置
+                // 创建全屏功能
+                setTimeout(createFullScreen, 0);
+            }
+
+            // 定位失败的回调
+            function handlePositionError() {
+                layerModule.text(textConfig.locationFail);
+                setTimeout(function () {
+                    layerModule.hide();
+                    $('.js-layer-white').remove(); // 隐藏地图白色遮罩
+                }, 500);
+                // 创建全屏功能
+                setTimeout(createFullScreen, 0);
+            }
+        });
+
+        // 监听当获取到新的坐标点时，更新marker
+        $(window).on('map.points.update', function (ev, data) {
+            mapApi.addMarkers(data.points);
+        });
+
+        return {
+            // 定位到当前城市
+            locationCurrentCity: function locationCurrentCity() {
+                if (currentCenter) {
+                    mapApi.position({
+                        center: currentCenter,
+                        zoom: 11
+                    });
+                    return true;
+                }
+                return false;
+            },
+            // 定位到经纬度所在位置
+            position: function position(lng, lat, zoom) {
+                mapApi.position({
+                    center: { lng: lng, lat: lat },
+                    zoom: zoom || 11
+                });
+            },
+            // 计算两点之间的距离，单位米
+            getDistance: function getDistance(p1, p2) {
+                return mapApi.getDistance(p1, p2);
+            }
+        };
+    }();
+
+    /**
+     * 手机端列表旋转
+     */
+    var mbSwipeModule = function () {
+        // (function() {
+        var oBox = $('.search-map'),
+            aShoes = oBox.find('.content .container .table .cont-list'),
+            iNow = 0,
+            iwidth = 88;
+
+        var swipe = new Swipe({ 'elem': document.getElementById('tableLi') });
+
+        //左箭头
+        swipe.on('left', function () {
+            var iLen = aShoes.find('.box').length;
+
+            ++iNow;
+
+            switch (iLen) {
+                case 1:
+                    break;
+                case 2:
+                    if (iNow > 1) {
+                        iNow = 1;
+                        return;
+                    }
+                    aShoes.css({
+                        marginLeft: -iwidth * iNow + '%'
+                    });
+                    break;
+                case 3:
+                    if (iNow > 1) {
+                        iNow = 1;
+                        return;
+                    }
+                    aShoes.css({
+                        marginLeft: -iwidth * iNow + '%'
+                    });
+                    break;
+            }
+        });
+        //右箭头
+        swipe.on('right', function () {
+            var iLen = aShoes.find('.box').length;
+
+            --iNow;
+
+            switch (iLen) {
+                case 1:
+                    break;
+                case 2:
+                    if (iNow < 0) {
+                        iNow = 0;
+                    }
+                    aShoes.css({
+                        marginLeft: -iwidth * iNow + '%'
+                    });
+                    break;
+                case 3:
+                    if (iNow < -1) {
+                        iNow = -1;
+                    }
+                    aShoes.css({
+                        marginLeft: -iwidth * iNow + '%'
+                    });
+                    break;
+            }
+        });
+
+        return {
+            resetSwipe: function resetSwipe(length) {
+                if (getScreenSize() !== 'xs') return;
+                console.log(length);
+                iNow = 0;
+                aShoes.css({
+                    marginLeft: '0'
+                });
+            }
+        };
+    }();
+});
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Created by jerry.lin-wun on 2018/8/2.
+ */
+
+/**
+ * 产品页类
+ */
+var ProductClass = function (_ThemeClass) {
+    _inherits(ProductClass, _ThemeClass);
+
+    function ProductClass() {
+        _classCallCheck(this, ProductClass);
+
+        return _possibleConstructorReturn(this, (ProductClass.__proto__ || Object.getPrototypeOf(ProductClass)).apply(this, arguments));
+    }
+
+    _createClass(ProductClass, [{
+        key: 'build',
+        value: function build() {
+            this.options.textConfig = window.siteLang === 'zh-CN' ? { all: '全部' } : { all: 'All' };
+            this.selects().tags().thumbnailList().unit();
+        }
+    }, {
+        key: 'selects',
+        value: function selects() {
+            var _this = this;
+            var $ = _this.options.jQuery;
+            _this.config = {
+                type: _this.options.textConfig.all, //tons
+                power: _this.options.textConfig.all,
+                emissions: _this.options.textConfig.all
+            };
+
+            $('.js-filter-type, .js-filter-power, .js-filter-emissions').on('dropdown-menu', function (ev, data) {
+                _this.config[data.menu.data('menu')] = data.val;
+                _this.setTagName(_this.options.textConfig.all).queryList(_extends({}, _this.config, { tag: _this.tagName }));
+            });
+
+            return this;
+        }
+    }, {
+        key: 'tags',
+        value: function tags() {
+            var _this = this;
+            var $ = _this.options.jQuery;
+            _this.tagName = _this.options.textConfig.all;
+
+            $(window).on('tags', function (ev, data) {
+                _this.tagName = data.el.attr('_val');
+                _this.queryList(_extends({}, _this.config, { tag: _this.tagName }));
+            });
+
+            return this;
+        }
+        // 设置当前tag
+
+    }, {
+        key: 'setTagName',
+        value: function setTagName(name) {
+            var _this = this;
+            var $ = _this.options.jQuery;
+            _this.tagName = name;
+            // 给当前tag加active
+            $('[data-target]').find('li').each(function () {
+                var thisLi = $(this);
+                if (thisLi.attr('_val') === name) {
+                    thisLi.addClass('active');
+                } else {
+                    thisLi.removeClass('active');
+                }
+            });
+
+            return this;
+        }
+        // 更新tag列表
+
+    }, {
+        key: 'updateTag',
+        value: function updateTag(tagNames) {
+            var _this = this;
+            var $ = _this.options.jQuery;
+            $('[data-target]').each(function () {
+                var thisTags = $(this);
+                if (thisTags.data('target') === 'tags') {
+                    thisTags.html('');
+                    for (var i = 0, length = tagNames.length; i < length; i++) {
+                        var className = tagNames[i] === _this.tagName ? 'active' : '';
+                        thisTags.append('<li _val="' + tagNames[i] + '" class="' + className + '">' + tagNames[i] + '</li>');
+                    }
+                }
+            });
+
+            return this;
+        }
+        // 缩略图列表
+
+    }, {
+        key: 'thumbnailList',
+        value: function thumbnailList() {
+            var _this = this;
+            var $ = _this.options.jQuery;
+            _this.list = [];
+
+            // 获取所有列表push到list
+            var tagNames = [_this.options.textConfig.all];
+            $('[data-item]').each(function () {
+                var item = $(this);
+                if (item.data('item') === 'thumbnail') {
+                    _this.list.push(item);
+                    // 获取每个item中的tag
+                    var tag = item.data('tag');
+                    if (tag) {
+                        // tag = trim(tag, 'g').split(',');
+                        tag = tag.split(',');
+                        tagNames.push.apply(tagNames, _toConsumableArray(tag));
+                    }
+                }
+            });
+
+            // 渲染tag列表
+            this.updateTag(unique(tagNames));
+
+            return this;
+        }
+        // 根据选择的条件筛选出符合条件的产品显示，不符合条件的隐藏
+
+    }, {
+        key: 'queryList',
+        value: function queryList(opts) {
+            var _this = this;
+            var $ = _this.options.jQuery;
+            $.each(_this.list, function () {
+                var item = $(this);
+                if ((opts.type === _this.options.textConfig.all || item.data('tons') && item.data('tons').indexOf(opts.type) > -1) && (opts.power === _this.options.textConfig.all || item.data('power') && item.data('power').indexOf(opts.power) > -1) && (opts.emissions === _this.options.textConfig.all || item.data('emissions') && item.data('emissions').indexOf(opts.emissions) > -1) && (opts.tag === _this.options.textConfig.all || item.data('tag') && item.data('tag').indexOf(opts.tag) > -1)) {
+                    item.show();
+                } else {
+                    item.hide();
+                }
+            });
+        }
+    }, {
+        key: 'unit',
+        value: function unit() {
+            var _this = this;
+            var $ = _this.options.jQuery;
+            $(window).on('unit', function (ev, data) {
+                var list = _this.list[0].parents('.js-pro-tab-content');
+                switch (data.index) {
+                    // 公制
+                    case 0:
+                        list.find('.js-public-details').show();
+                        list.find('.js-usa-details').hide();
+                        break;
+                    // 美制
+                    case 1:
+                        list.find('.js-public-details').hide();
+                        list.find('.js-usa-details').show();
+                        break;
+                }
+            });
+        }
+    }]);
+
+    return ProductClass;
+}(ThemeClass);
+
+;
+
+;(function ($) {
+
+    if ($('[data-page]').data('page') !== 'products') return;
+    $('body').addClass('products');
+
+    new ProductClass({ jQuery: $ });
+})(jQuery);
+
+/*
+;(function ($) {
+
+    if ($('[data-page]').data('page') !== 'products') return;
+
+
+    // 下拉选择 吨位、动力和排燃
+    var selects = (function () {
+
+        var config = {
+            tons: '全部',
+            power: '全部',
+            emissions: '全部'
+        };
+
+        $('[data-select]').on('change', function () {
+            var select = $(this);
+            //console.log(select.data('select') + ': ' + select.val());
+            config[select.data('select')] = select.val();
+            //console.log({...config, tag: tags.get()});
+            tags.setName('全部');
+            updateList.query({...config, tag: tags.getName()});
+        });
+
+        return {
+            config: config
+        }
+
+    })();
+
+    // 点击tag
+    var tags = (function () {
+
+        var tagName = '全部';
+
+        $(window).on('tags', function (ev, data) {
+            //console.log(data.el.attr('_val'));
+            tagName = data.el.attr('_val');
+            updateList.query({...selects.config, tag: tagName});
+        });
+
+        return {
+            getName: function () {
+                return tagName;
+            },
+            // 设置当前tag
+            setName: function (name) {
+                tagName = name;
+                // 给当前tag加active
+                $('[data-target]').find('li').each(function () {
+                    var thisLi = $(this);
+                    if (thisLi.attr('_val') === name) {
+                        thisLi.addClass('active');
+                    } else {
+                        thisLi.removeClass('active');
+                    }
+                });
+            },
+            // 更新tag列表
+            update: function (tagNames) {
+                $('[data-target]').each(function () {
+                    var thisTags = $(this);
+                    if (thisTags.data('target') === 'tags') {
+                        thisTags.html('');
+                        for (var i = 0, length = tagNames.length; i < length; i ++) {
+                            var className = tagNames[i] === tagName ? 'active' : '';
+                            thisTags.append('<li _val="'+ tagNames[i] +'" class="'+ className +'">'+ tagNames[i] +'</li>');
+                        }
+                    }
+                });
+            }
+        }
+
+    })();
+
+    // 更新产品列表
+    var updateList = (function () {
+
+        var list = [];
+
+        // 获取所有列表push到list
+        var tagNames = ['全部'];
+        $('[data-item]').each(function () {
+            var item = $(this);
+            if (item.data('item') === 'thumbnail') {
+                list.push(item);
+                // 获取每个item中的tag
+                var tag = item.data('tag');
+                if (tag) {
+                    tag = trim(tag, 'g').split(',');
+                    tagNames.push(...tag);
+                }
+            }
+        });
+
+        // 根据选择的条件筛选出符合条件的产品显示，不符合条件的隐藏
+        var query = function (opts) {
+            //console.log(opts);
+            $.each(list, function () {
+                var item = $(this);
+                if (
+                    (opts.tons === '全部' || item.data('tons') === opts.tons) &&
+                    (opts.power === '全部' || item.data('power') === opts.power) &&
+                    (opts.emissions === '全部' || item.data('emissions') === opts.emissions) &&
+                    (opts.tag === '全部' || (item.data('tag') && item.data('tag').indexOf(opts.tag) > -1) )
+                ) {
+                    item.show();
+                } else {
+                    item.hide();
+                }
+            });
+        };
+
+        // 渲染tag列表
+        tags.update(unique(tagNames));
+
+        return {query: query}
+
+    })();
+
+    // 选择公制或美制
+    (function () {
+
+        $(window).on('unit', function (ev, data) {
+            switch (data.index) {
+                // 公制
+                case 0:
+                    $('.js-public-details').show();
+                    $('.js-usa-details').hide();
+                    break;
+                // 美制
+                case 1:
+                    $('.js-public-details').hide();
+                    $('.js-usa-details').show();
+                    break;
+            }
+        });
+
+    })();
+
+})(jQuery);*/
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Created by wang on 2018/7/27.
+ */
+
+/**
+ * 产品细节类
+ */
+var productDetailTabIndex = -1;
+
+var ProDetailClass = function (_ThemeClass) {
+    _inherits(ProDetailClass, _ThemeClass);
+
+    function ProDetailClass() {
+        _classCallCheck(this, ProDetailClass);
+
+        return _possibleConstructorReturn(this, (ProDetailClass.__proto__ || Object.getPrototypeOf(ProDetailClass)).apply(this, arguments));
+    }
+
+    _createClass(ProDetailClass, [{
+        key: 'build',
+        value: function build() {
+            // 公英制
+            $('.filterTool .unit ul li').on('click', function () {
+                switch ($(this).index()) {
+                    // 公制
+                    case 0:
+                        $('.js-public-param').show();
+                        $('.js-usa-param').hide();
+                        break;
+                    // 美制
+                    case 1:
+                        $('.js-public-param').hide();
+                        $('.js-usa-param').show();
+                        break;
+                }
+            });
+            this.features();
+        }
+        // 产品特色 图片点击出现弹层,
+        // todos:具体逻辑实现
+
+    }, {
+        key: 'features',
+        value: function features() {
+            var $ = this.options.jQuery,
+                mainObj = $('.product-features'),
+                imgTab = mainObj.find('.features-content .imgTab'),
+                feature_float = $('.product-feature-float'),
+                closeBtn = feature_float.find('.close');
+
+            // 收集每一项的class值col-sm-3和col-sm-6
+            // 它们的总和小于12时，说明内容不足以全宽显示，需要为features-content节点增加class值align-center，使内容做居中显示
+            var colsmLength = 0;
+            imgTab.each(function () {
+                var thisTab = $(this);
+                if (thisTab.hasClass('col-sm-3')) {
+                    colsmLength += 3;
+                } else if (thisTab.hasClass('col-sm-6')) {
+                    colsmLength += 6;
+                }
+            });
+            if (colsmLength < 12) {
+                mainObj.find('.features-content').addClass('align-center');
+            }
+
+            imgTab.click(function () {
+                productDetailTabIndex = $(this).index();
+                var video = feature_float.find('.item').eq(productDetailTabIndex).find('video');
+                $('#featureBanner').carousel(productDetailTabIndex);
+                $('#featureBanner').carousel('pause');
+                feature_float.fadeIn();
+                if (video.get(0)) {
+                    video.get(0).play();
+                }
+            });
+            closeBtn.click(function () {
+                feature_float.fadeOut();
+                var video = feature_float.find('.item').eq(productDetailTabIndex).find('video');
+                if (video.get(0)) {
+                    video.get(0).pause();
+                }
+            });
+
+            /*$('#featureBanner .glyphicon-menu-left').on('click', function () {
+                var video = feature_float.find('.item').eq(productDetailTabIndex).find('video');
+                if (video.get(0)) {
+                    video.get(0).pause()
+                }
+            })
+            $('#featureBanner .glyphicon-menu-right').on('click', function () {
+                var video = feature_float.find('.item').eq(productDetailTabIndex).find('video');
+                if (video.get(0)) {
+                    video.get(0).pause()
+                }
+            })*/
+
+            $('#featureBanner').on('slide.bs.carousel', function (ev) {
+                var slideIndex = $(ev.relatedTarget).index();
+                if (slideIndex !== productDetailTabIndex) {
+                    var videoPrev = feature_float.find('.item').eq(productDetailTabIndex).find('video');
+                    var videoNext = feature_float.find('.item').eq(slideIndex).find('video');
+                    if (videoPrev.get(0)) {
+                        videoPrev.get(0).pause();
+                    }
+                    if (videoNext.get(0)) {
+                        videoNext.get(0).play();
+                    }
+                    productDetailTabIndex = slideIndex;
+                }
+            });
+
+            return this;
+        }
+        // 监听单位事件
+
+    }, {
+        key: 'unit',
+        value: function unit() {
+            $ = this.options.jQuery;
+            $(window).on('unit', function (ev, data) {
+                switch (data.index) {
+                    // 公制
+                    case 0:
+                        $('.js-public-param').show();
+                        $('.js-usa-param').hide();
+                        break;
+                    // 美制
+                    case 1:
+                        $('.js-public-param').hide();
+                        $('.js-usa-param').show();
+                        break;
+                }
+            });
+            return this;
+        }
+    }]);
+
+    return ProDetailClass;
+}(ThemeClass);
+
+;(function ($) {
+
+    if ($('[data-page]').data('page') !== 'product-detail') return;
+
+    var textConfig = window.siteLang === 'zh-CN' ? {
+        download: '下载图册'
+    } : {
+        download: 'Download Brochure'
+    };
+
+    $('body').addClass('product-detail');
+
+    new ProDetailClass({ jQuery: $ });
+    // 阻止冒泡--阻止banner的滑动事件
+    $('.iconArr').on('touchstart', function (e) {
+        e.stopPropagation();
+    });
+
+    var feature_float = $('.product-feature-float'),
+        featureBanner = feature_float.find('#featureBanner');
+
+    feature_float.on('click', function () {
+        feature_float.fadeOut();
+        var video = feature_float.find('.item').eq(productDetailTabIndex).find('video');
+        if (video.get(0)) {
+            video.get(0).pause();
+        }
+    });
+    featureBanner.find('.carousel-control.right').on('click', function (e) {
+        e.stopPropagation();
+        featureBanner.carousel('next');
+    });
+    featureBanner.find('.carousel-control.left').on('click', function (e) {
+        e.stopPropagation();
+        featureBanner.carousel('prev');
+    });
+    featureBanner.find('.carousel-indicators li').on('click', function (e) {
+        e.stopPropagation();
+        var _index = $(this).attr('data-slide-to');
+        featureBanner.carousel(Number(_index));
+        featureBanner.carousel('pause');
+    });
+    featureBanner.find('.carousel-inner').on('click', function (e) {
+        e.stopPropagation();
+    });
+
+    // 为下载btn增加download属性和其他窗口打开属性
+    /*var btns = $('.parameter-btn .btn-liugong');
+    btns.each(function (index, el) {
+        // 根据下载链接截取文件名
+        var matchNames = $(this).attr('href').match(/^.*\/((.*).(jpg|jpeg|png|gif|zip|rar|pdf|doc|docx|ppt|pptx|xls|xlsx|txt))$/i),
+            fileName = matchNames[1],
+            btnName = matchNames[2];
+          console.log(index);
+        $(this).attr({download: fileName, target: '_blank'}).text(textConfig.download +' '+ index); //btnName
+    });*/
+
+    var panels = $('#parameter>.panel');
+    // 多个参数表时，都不主动展开
+    if (panels.length > 1) {
+        var firstPanel = panels.eq(0);
+        firstPanel.find('.panel-heading button').addClass('collapsed');
+        firstPanel.find('.panel-collapse').removeClass('in');
+    }
+    panels.each(function () {
+        var btns = $(this).find('.parameter-btn .btn-liugong');
+        btns.each(function (index, el) {
+            // 根据下载链接截取文件名
+            var matchNames = $(this).attr('href').match(/^.*\/((.*).(jpg|jpeg|png|gif|zip|rar|pdf|doc|docx|ppt|pptx|xls|xlsx|txt))$/i),
+                fileName = matchNames[1],
+                btnName = ''; //matchNames[2]
+
+            if (btns.length === 1) {
+                btnName = '';
+            } else {
+                btnName = ' ' + (index + 1);
+            }
+            $(this).attr({ download: fileName, target: '_blank' }).text(textConfig.download + btnName);
+        });
+    });
+})(jQuery);
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+/**
+ * Created by wang on 2018/8/2.
+ */
+$(function () {
+
+    if ($('[data-page]').data('page') !== 'product-compare') return;
+    $('body').addClass('product-compare');
+
+    /**
+     * 点击添加产品，打开category或product 列表弹窗
+     */
+    var headModule = function () {
+        /**
+         * class说明：
+         * compare-pro-wrap 添加产品主wrap
+         * pro_item 每个产品图，.add-item 无产品
+         * 
+         * add-product-pop 添加产品弹层
+         * add-product-content 添加产品弹层中主要内容     
+         *      span.triangle  小三角，随着选择的第几个而变化，目前可加类.first,.second,.third
+         *      .categery-list  产品类别块--挖掘机装载机
+         *      .product-list   产品列表块--图文
+         *          .product-navbar .back返回按钮，根据需要显示隐藏
+         * 
+         * 弹出层有效区域自下而上进入，底部滚动到相应能露出产品型号的位置
+         */
+        var compare_wrap = $('.compare-pro-wrap');
+        var pro_item = compare_wrap.find('.js-pro-item');
+        var add_pop = $('.add-product-pop');
+        var scrollTop = $('.filterTool').offset().top;
+        var index = 0;
+
+        // 插入图文到头部区域
+        //itemObj.data('add-transparent')
+        var insertInfo = function insertInfo(data) {
+            var itemObj = $('.js-pro-item').eq(index);
+            itemObj.removeClass('add-item').html('<div class="pro-top">\
+                        <span>' + data.categoryName + '</span><span>' + (data.series || '') + '</span>\
+                        <div class="edit-con pull-right">\
+                            <i class="glyphicon glyphicon-trash js-remove"></i><i class="glyphicon glyphicon-cog edit-btn js-edit"></i>\
+                        </div>\
+                      </div>\
+                      <img class="img-thum" src="/images/compare/add-transparent.png" width="100%" alt="' + data.title + '" style="background-image: url(' + data.compareImage + ')">\
+                      <div class="pro-bottom">\
+                         <p>' + data.title + '</p>\
+                         <p>' + data.math + '</p>\
+                    </div>');
+        };
+
+        var openLayer = function openLayer() {
+            // 弹窗小三角
+            add_pop.find('.triangle').removeClass().addClass('triangle ' + ['first', 'second', 'third'][index]);
+
+            // 不存在category id，则说明未选择category list。需显示category list
+            // 存在category id，则说明已经选择了category list。跳过category list，直接显示product list
+            var categoryId = categoryModule.getCurrentId();
+            if (!categoryId) {
+                // 获取category list数据，并渲染到dom
+                categoryModule.getData(function (res) {
+                    if (res.code === 200 || res.code === 304) {
+                        productModule.hide();
+                        this.show().render(res.data);
+                        $('body,html').animate({ 'scrollTop': scrollTop - 260 + 'px' });
+                        add_pop.fadeIn(500, function () {
+                            $('.add-product-content').addClass('active');
+                        });
+                    }
+                });
+            } else {
+                // 获取product list数据，并渲染到dom
+                productModule.getData(function (res) {
+                    if (res.code === 200 || res.code === 304) {
+                        this.show().render(res.data);
+                        $('body,html').animate({ 'scrollTop': scrollTop - 260 + 'px' });
+                        add_pop.fadeIn(500, function () {
+                            $('.add-product-content').addClass('active');
+                        });
+                    }
+                });
+            };
+        };
+
+        // 添加
+        pro_item.on('click', function () {
+            if (!$(this).hasClass('add-item')) return;
+            index = $(this).index();
+            handleBack();
+            openLayer();
+        });
+
+        // 删除
+        pro_item.on('click', '.js-remove', function (ev) {
+            var thisRemove = $(this);
+            index = thisRemove.parents('.js-pro-item').index();
+            pro_item.eq(index).addClass('add-item').html('<img src="/images/compare/add-logo.png" width="100%" alt=""><div class="add-product">添加产品</div>');
+            detailsModule.remove();
+            markModule.remove();
+
+            // 当所有产品都删除之后，将category list变成未选择状态
+            var rowLength = detailsModule.getRowLength();
+            if (rowLength == 0) {
+                categoryModule.setCurrentId(null);
+            };
+
+            ev.stopPropagation();
+        });
+
+        // 编辑
+        pro_item.on('click', '.js-edit', function (ev) {
+            var thisEdit = $(this);
+            index = thisEdit.parents('.js-pro-item').index();
+            handleBack('edit');
+            openLayer();
+            ev.stopPropagation();
+        });
+
+        // 显示或隐藏产品列表的back按钮
+        var handleBack = function handleBack(status) {
+            var rowLength = detailsModule.getRowLength();
+            var num = 0;
+            if (status == 'edit') {
+                num++;
+            }
+            if (rowLength > num) {
+                productModule.hideBack();
+            } else {
+                productModule.showBack();
+            }
+        };
+
+        // 隐藏弹窗
+        add_pop.click(function () {
+            $('.add-product-content').removeClass('active');
+            add_pop.fadeOut();
+        });
+        $('.add-product-content').click(function (e) {
+            e.stopPropagation();
+        });
+
+        return {
+            // 获取当前选择的列下角标
+            getIndex: function getIndex() {
+                return index;
+            },
+            requestData: function requestData(data) {
+                insertInfo(data);
+                return this;
+            }
+        };
+    }();
+
+    /**
+     * 选择类别
+     * @type {{show, hide, getCurrentId, getOldId, setOldId, render, getData}}
+     */
+    var categoryModule = function () {
+
+        var categoryList = $('.js-category-list');
+        var currentId = null;
+        var oldId = null;
+        var rendered = false; //是否已经渲染过了列表
+        var cacheData = null; //缓存列表数据
+
+        // 在动态生成之后为节点绑定一些事件
+        var bindEvent = function bindEvent() {
+            categoryList.find('li').on('click', function () {
+                var thisLi = $(this);
+                currentId = thisLi.data('category-id');
+                categoryList.hide();
+                productModule.getData(function (res) {
+                    this.show().render(res.data);
+                });
+            });
+        };
+
+        // 渲染列表
+        var renderList = function renderList(data) {
+            if (rendered) return;
+            var html = '';
+            rendered = true;
+            categoryList.html('');
+            data.forEach(function (item) {
+                html += '<li class="col-lg-2 col-md-2 col-sm-2 col-xs-4 text-center" data-category-id="' + item.id + '">\
+                            <a href="javascript:;">\
+                                <div class="oImg">\
+                                    <img class="iconWhite" src="' + item.iconWhite + '">\
+                                    <img class="iconBlue" src="' + item.iconBlue + '">\
+                                </div>\
+                                <span>' + item.name + '</span>\
+                            </a>\
+                        </li>';
+            });
+            categoryList.html(html);
+            bindEvent();
+            return this;
+        };
+
+        // 获取category list数据
+        var getData = function getData(callBack) {
+            var _this = this;
+            if (rendered) {
+                callBack && callBack.call(_this, { code: 304, message: 'unModified', data: cacheData });
+                return this;
+            };
+            loadingModule.show();
+            $.ajax({
+                type: 'get',
+                contentType: 'application/json; charset=utf-8',
+                url: getApiUrl('/compare/category'),
+                data: {
+                    siteLang: JSON.stringify(window.siteLang || $('html').attr('lang'))
+                },
+                success: function success(res) {
+                    loadingModule.hide();
+                    cacheData = parseApi(res).data;
+                    callBack && callBack.call(_this, parseApi(res));
+                },
+                error: function error(err) {
+                    loadingModule.hide();
+                    console.error(err);
+                    callBack && callBack.call(_this, err);
+                }
+            });
+            return this;
+        };
+
+        return {
+            show: function show() {
+                categoryList.show();
+                return this;
+            },
+            hide: function hide() {
+                categoryList.hide();
+                return this;
+            },
+            getCurrentId: function getCurrentId() {
+                return currentId;
+            },
+            setCurrentId: function setCurrentId(id) {
+                currentId = id;
+                return this;
+            },
+            getOldId: function getOldId() {
+                return oldId;
+            },
+            setOldId: function setOldId(id) {
+                oldId = id;
+                return this;
+            },
+            render: renderList,
+            getData: getData
+        };
+    }();
+
+    // 选择产品
+    var productModule = function () {
+
+        var productList = $('.js-product-list');
+        var productContent = productList.find('.js-pro-tab-content');
+        var tagList = productList.find('.js-tag-list');
+        var backBtn = productList.find('.js-back');
+        var currentId = null;
+        var cacheData = null; //缓存列表数据
+        var textConfig = window.siteLang === 'zh-CN' ? {
+            colon: '：'
+        } : {
+            colon: ':'
+        };
+
+        // 在动态生成之后为节点绑定一些事件
+        var bindEvent = function bindEvent() {
+            // 缩略图
+            productContent.find('.caption').on('click', function () {
+                var thisCaption = $(this);
+                currentId = thisCaption.parents('.js-set-col').data('product-id');
+                //backBtn.hide();
+                $('.add-product-pop').fadeOut();
+
+                var item = getItem(currentId);
+                headModule.requestData(item);
+                detailsModule.render(item.details);
+                markModule.setInfo(item);
+            });
+            // 标签
+            tagList.find('li').on('click', function () {
+                $(this).addClass('active').siblings('li').removeClass('active');
+                query({ tag: $(this).text() });
+                // trim($(this).text())
+            });
+        };
+
+        // 获取tag标签
+        // 返回标签数组
+        var getTags = function getTags() {
+            // 获取所有列表push到list
+            var tagNames = ['全部'];
+            productContent.find('.js-set-col').each(function () {
+                var item = $(this);
+                // 获取每个item中的tag
+                var tag = item.data('tag');
+                if (tag) {
+                    tag = tag.split(',');
+                    // tag = trim(tag, 'g').split(',');
+                    tagNames.push.apply(tagNames, _toConsumableArray(tag));
+                }
+            });
+            return unique(tagNames);
+        };
+        // 渲染tag列表
+        // tags：标签数组
+        var renderTagList = function renderTagList(tags) {
+            var html = '';
+            tagList.html('');
+            tags.forEach(function (tag, index) {
+                html += '<li class="' + (index == 0 ? 'active' : '') + '">' + tag + '</li>';
+            });
+            tagList.html(html);
+        };
+
+        // 渲染列表
+        var renderList = function renderList(data) {
+            // 如果未切换category，则直接返回
+            var categoryId = categoryModule.getCurrentId(),
+                html = '';
+            if (categoryId === categoryModule.getOldId()) return;
+            categoryModule.setOldId(categoryId);
+
+            productContent.html('');
+            data.forEach(function (item) {
+                html += '<div class="col-sm-4 col-md-3 col-xs-6 set-col js-set-col" data-product-id="' + item.id + '"' + (item.tag ? ' data-tag="' + item.tag + '"' : '') + '>\
+                            <div class="thumbnail"><img src="' + item.thumbnail + '" width="100%" alt="' + item.title + '">\
+                                <div class="caption">\
+                                    <h4>' + item.title + '</h4>\
+                                    <div class="js-public-details">\
+                                        ' + function () {
+                    var str = '',
+                        index = 0;
+                    for (var key in item.details) {
+                        if (index < 4) {
+                            // 取前四个
+                            str += '<p><span>' + key + textConfig.colon + '</span><span>' + item.details[key][0] + '</span></p>';
+                            index++;
+                        } else {
+                            break;
+                        }
+                    };
+                    return str;
+                }() + '\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>';
+            });
+            productContent.html(html);
+            renderTagList(getTags());
+            bindEvent();
+            return this;
+        };
+
+        // 获取product list数据
+        var getData = function getData(callBack) {
+            var _this = this;
+            // 如果未切换category，则直接返回
+            var categoryId = categoryModule.getCurrentId();
+            if (categoryId === categoryModule.getOldId()) {
+                callBack && callBack.call(_this, { code: 304, message: 'unModified', data: cacheData });
+                return this;
+            };
+
+            loadingModule.show();
+            $.ajax({
+                type: 'get',
+                contentType: 'application/json; charset=utf-8',
+                url: getApiUrl('/compare/products'),
+                data: {
+                    siteLang: JSON.stringify(window.siteLang || $('html').attr('lang')),
+                    cateogyrId: JSON.stringify(categoryModule.getCurrentId())
+                },
+                success: function success(res) {
+                    loadingModule.hide();
+                    cacheData = parseApi(res).data;
+                    callBack && callBack.call(_this, parseApi(res));
+                },
+                error: function error(err) {
+                    loadingModule.hide();
+                    console.error(err);
+                    callBack && callBack.call(_this, err);
+                }
+            });
+            return this;
+        };
+
+        // 获取一条产品数据
+        var getItem = function getItem(id) {
+            for (var i = 0, length = cacheData.length; i < length; i++) {
+                if (cacheData[i].id == id) {
+                    return cacheData[i];
+                }
+            };
+        };
+
+        // 根据选择的条件筛选出符合条件的产品显示，不符合条件的隐藏
+        var query = function query(opts) {
+            productContent.find('.js-set-col').each(function () {
+                var item = $(this);
+                if (opts.tag === '全部' || item.data('tag') && item.data('tag').indexOf(opts.tag) > -1) {
+                    item.show();
+                } else {
+                    item.hide();
+                }
+            });
+        };
+
+        // 点击返回category list
+        backBtn.on('click', function () {
+            productList.hide();
+            categoryModule.show();
+        });
+
+        return {
+            show: function show() {
+                productList.show();
+                return this;
+            },
+            hide: function hide() {
+                productList.hide();
+                return this;
+            },
+            showBack: function showBack() {
+                backBtn.show();
+                return this;
+            },
+            hideBack: function hideBack() {
+                backBtn.hide();
+                return this;
+            },
+            setCurrentId: function setCurrentId(id) {
+                currentId = id;
+                return this;
+            },
+            render: renderList,
+            getData: getData,
+            getItem: getItem
+        };
+    }();
+
+    // 公美制切换
+    var unitModule = function () {
+
+        var status = 'public'; // 切换的状态值
+
+        $(window).on('unit', function (ev, data) {
+            switch (data.index) {
+                case 0:
+                    status = 'public';
+                    $('.js-public-detail').show();
+                    $('.js-usa-detail').hide();
+                    break;
+                case 1:
+                    status = 'usa';
+                    $('.js-public-detail').hide();
+                    $('.js-usa-detail').show();
+                    break;
+            }
+        });
+
+        return {
+            getStatus: function getStatus() {
+                return status;
+            }
+        };
+    }();
+
+    // 展示细节参数对比列
+    var detailsModule = function () {
+
+        var rowList = $('.js-row-list');
+        var rows = [null, null, null]; // 代表三列是否已经填充数据
+
+        var renderList = function renderList(data, status) {
+            var html = '',
+                index = headModule.getIndex();
+            if (status !== 'remove') {
+                rows[index] = data;
+            };
+            for (var key in data) {
+                if (key === 'schema') {
+                    continue;
+                }
+                html += '<div class="val-row js-val-row">\
+                            <div class="item-title text-center">' + key + '</div>\
+                            <div class="item-det overflow-hidden">\
+                                ' + function () {
+                    var str = '',
+                        status = unitModule.getStatus(),
+                        publicPlay = status === 'public' ? 'block' : 'none',
+                        usaPlay = status === 'usa' ? 'block' : 'none';
+
+                    rows.forEach(function (rowData) {
+                        if (rowData) {
+                            str += '<div class="col-sm-4 col-xs-6">\
+                                                        <span class="js-public-detail" style="display: ' + publicPlay + ';">' + rowData[key][0] + '</span>\
+                                                        <span class="js-usa-detail" style="display: ' + usaPlay + ';">' + rowData[key][1] + '</span>\
+                                                    </div>';
+                        } else {
+                            str += '<div class="col-sm-4 col-xs-6">&nbsp;</div>';;
+                        }
+                    });
+                    return str;
+                }() + '\
+                            </div>\
+                        </div>';
+            };
+            rowList.html(html);
+        };
+
+        // 默认骨架支持高度
+        var defaultSchema = window.siteLang === 'zh-CN' ? {
+            'schema': true, //用于标识当前数据只用于骨架，无实质性数据
+            '额定载重量': ['&nbsp;', '&nbsp;'],
+            '额定功率': ['&nbsp;', '&nbsp;'],
+            '参考斗容': ['&nbsp;', '&nbsp;'],
+            '最大崛起力': ['&nbsp;', '&nbsp;'],
+            '发动机型号': ['&nbsp;', '&nbsp;'],
+            '发动机型式': ['&nbsp;', '&nbsp;'],
+            '标定功率（kw）': ['&nbsp;', '&nbsp;'],
+            '轴距（mm）': ['&nbsp;', '&nbsp;'],
+            '液压系统形式': ['&nbsp;', '&nbsp;'],
+            '提升能力（kn）': ['&nbsp;', '&nbsp;'],
+            '最大牵引力（kn）': ['&nbsp;', '&nbsp;'],
+            '最小转弯半径（m）': ['&nbsp;', '&nbsp;'],
+            '最小离地间隙（mm）': ['&nbsp;', '&nbsp;'],
+            '外形尺寸（mm）': ['&nbsp;', '&nbsp;'],
+            '最小使用质量（kg）': ['&nbsp;', '&nbsp;']
+        } : {
+            'schema': true, //用于标识当前数据只用于骨架，无实质性数据
+            'Operating weight with cab': ['&nbsp;', '&nbsp;'],
+            'Operating weight with canopy': ['&nbsp;', '&nbsp;'],
+            'Engine power': ['&nbsp;', '&nbsp;'],
+            'Bucket capacity': ['&nbsp;', '&nbsp;'],
+            'Maximum travel speed (High)': ['&nbsp;', '&nbsp;'],
+            'Maximum travel speed (Low)': ['&nbsp;', '&nbsp;'],
+            'Maximum swing speed (rpm)': ['&nbsp;', '&nbsp;'],
+            'Arm breakout force': ['&nbsp;', '&nbsp;'],
+            'Arm breakout force Power boost': ['&nbsp;', '&nbsp;'],
+            'Bucket breakout force': ['&nbsp;', '&nbsp;'],
+            'Bucket breakout force Power boost': ['&nbsp;', '&nbsp;'],
+            'Shipping length': ['&nbsp;', '&nbsp;'],
+            'Shipping width': ['&nbsp;', '&nbsp;'],
+            'Shipping height': ['&nbsp;', '&nbsp;'],
+            'Track shoe width (std)': ['&nbsp;', '&nbsp;'],
+            'Boom': ['&nbsp;', '&nbsp;']
+        };
+        renderList(defaultSchema);
+
+        return {
+            render: renderList,
+            // 移除参数列里的数据
+            remove: function remove() {
+                var index = headModule.getIndex(),
+                    data = defaultSchema;
+                //console.log(index)
+                rows[index] = null;
+                //console.log(rows);
+                // 从rows中查找到一条数据作为模板
+                for (var i = 0, length = rows.length; i < length; i++) {
+                    if (rows[i]) {
+                        data = rows[i];
+                        break;
+                    }
+                };
+                renderList(data, 'remove');
+                return this;
+            },
+            getRowLength: function getRowLength() {
+                var index = 0;
+                rows.forEach(function (rowsData) {
+                    if (rowsData && !rowsData.schema) {
+                        index++;
+                    }
+                });
+                return index;
+            },
+            getRow: function getRow() {
+                return rows;
+            }
+        };
+    }();
+
+    // compare marks
+    var markModule = function () {
+
+        var marks = $('.js-compare-marks'),
+            sortClass = '';
+
+        // 根据选择的顺序和多少来定义marks的class值，以此来解决 | 线问题
+        function getSortByClass(rows) {
+            var str = 'sort-',
+                index = 0;
+            rows.forEach(function (rowsData) {
+                index++;
+                if (rowsData && !rowsData.schema) {
+                    str += (str !== 'sort-' ? '-' : '') + index;
+                }
+            });
+            return str;
+        }
+
+        return {
+            setInfo: function setInfo(productItem) {
+                var index = headModule.getIndex();
+                if (detailsModule.getRowLength() > 0) {
+                    marks.find('.js-category-name').show();
+                }
+                marks.find('.js-category-name').text(productItem.categoryName);
+                marks.find('.js-model-' + (index + 1)).show().text(productItem.title);
+                marks.removeClass(sortClass);
+                sortClass = getSortByClass(detailsModule.getRow());
+                marks.addClass(sortClass);
+            },
+            remove: function remove() {
+                var index = headModule.getIndex();
+                if (detailsModule.getRowLength() === 0) {
+                    marks.find('.js-category-name').hide();
+                }
+                marks.find('.js-model-' + (index + 1)).hide().text('');
+                marks.removeClass(sortClass);
+                sortClass = getSortByClass(detailsModule.getRow());
+                marks.addClass(sortClass);
+            }
+        };
+    }();
+
+    // loading层
+    var loadingModule = function () {
+
+        var progress = $('.js-pop-progress');
+
+        return {
+            show: function show() {
+                progress.show();
+            },
+            hide: function hide() {
+                progress.hide();
+            }
+        };
+    }();
+
+    // 根据url参数自动选择
+    (function () {
+
+        var params = getParamVal(),
+            categoryId = params.categoryId,
+            productId = params.productId;
+
+        if (categoryId && productId) {
+            categoryModule.setCurrentId(categoryId).hide().getData(function (res) {
+                this.render(res.data);
+                productModule.setCurrentId(productId).hide().getData(function (res) {
+                    if (res.code === 200 || res.code === 304) {
+                        this.render(res.data);
+                        var item = productModule.getItem(productId);
+                        console.log(item);
+                        headModule.requestData(item);
+                        detailsModule.render(item.details);
+                        markModule.setInfo(item);
+                    }
+                });
+            });
+        }
+    })();
+});
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Created by jerry.lin-wun on 2018/8/6.
+ */
+;(function ($, undefined) {
+
+    if ($('[data-page]').data('page') !== 'accessory') return;
+
+    var AccessoryClass = function (_ProductClass) {
+        _inherits(AccessoryClass, _ProductClass);
+
+        function AccessoryClass() {
+            _classCallCheck(this, AccessoryClass);
+
+            return _possibleConstructorReturn(this, (AccessoryClass.__proto__ || Object.getPrototypeOf(AccessoryClass)).apply(this, arguments));
+        }
+
+        _createClass(AccessoryClass, [{
+            key: 'build',
+            value: function build() {
+                this.tags().thumbnailList().unit();
+            }
+        }, {
+            key: 'tags',
+            value: function tags() {
+                var _this = this;
+                var $ = _this.options.jQuery;
+                _this.tagName = '全部';
+
+                $(window).on('tags', function (ev, data) {
+                    _this.tagName = data.el.attr('_val');
+                    _this.queryList({ tag: _this.tagName });
+                });
+
+                return this;
+            }
+        }]);
+
+        return AccessoryClass;
+    }(ProductClass);
+
+    new AccessoryClass({ jQuery: $ });
+})(jQuery);
+/**
+ * Created by jerry.lin-wun on 2018/8/6.
+ */
+$(function ($) {
+
+    if ($('[data-page]').data('page') !== 'accessory-detail') return;
+
+    new ProDetailClass({ jQuery: $ });
+
+    var feature_float = $('.product-feature-float'),
+        featureBanner = feature_float.find('#featureBanner');
+
+    feature_float.on('click', function () {
+        feature_float.fadeOut();
+    });
+    featureBanner.find('.carousel-control.right').on('click', function (e) {
+        e.stopPropagation();
+        featureBanner.carousel('next');
+    });
+    featureBanner.find('.carousel-control.left').on('click', function (e) {
+        e.stopPropagation();
+        featureBanner.carousel('prev');
+    });
+    featureBanner.find('.carousel-indicators li').on('click', function (e) {
+        e.stopPropagation();
+        var _index = $(this).attr('data-slide-to');
+        featureBanner.carousel(Number(_index));
+    });
+    featureBanner.find('.carousel-inner').on('click', function (e) {
+        e.stopPropagation();
+    });
+});
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Created by jerry.lin-wun on 2018/8/6.
+ * 其他产品页
+ */
+;(function ($) {
+
+    if ($('[data-page]').data('page') !== 'model') return;
+
+    var ModelClass = function (_ProDetailClass) {
+        _inherits(ModelClass, _ProDetailClass);
+
+        function ModelClass() {
+            _classCallCheck(this, ModelClass);
+
+            return _possibleConstructorReturn(this, (ModelClass.__proto__ || Object.getPrototypeOf(ModelClass)).apply(this, arguments));
+        }
+
+        _createClass(ModelClass, [{
+            key: 'build',
+            value: function build() {
+                this.features();
+            }
+        }]);
+
+        return ModelClass;
+    }(ProDetailClass);
+
+    new ModelClass({ jQuery: $ });
+
+    var feature_float = $('.product-feature-float'),
+        featureBanner = feature_float.find('#featureBanner');
+
+    feature_float.on('click', function () {
+        feature_float.fadeOut();
+    });
+    featureBanner.find('.carousel-control.right').on('click', function (e) {
+        e.stopPropagation();
+        featureBanner.carousel('next');
+    });
+    featureBanner.find('.carousel-control.left').on('click', function (e) {
+        e.stopPropagation();
+        featureBanner.carousel('prev');
+    });
+    featureBanner.find('.carousel-indicators li').on('click', function (e) {
+        e.stopPropagation();
+        var _index = $(this).attr('data-slide-to');
+        featureBanner.carousel(Number(_index));
+    });
+    featureBanner.find('.carousel-inner').on('click', function (e) {
+        e.stopPropagation();
+    });
+})(jQuery);
+/**
+ * Created by chenyue on 2018/7/16.
+ */
+$(function () {
+    var oDataPageName = $('[data-page]').data('page');
+
+    if (oDataPageName !== 'anniversary-home') return;
+
+    changeMargin();
+    $(window).resize(function () {
+        changeMargin();
+    });
+    function changeMargin() {
+        var oBodyWith = $(window).width();
+        var oBodyHeight = $(window).height();
+        // if (oBodyWith > 1000) {
+        $('.banner-wrap').css('height', oBodyHeight + 'px');
+        // }
+    }
+});
+/**
+ * Created by Alice on 2018/8/6.
+ */
+;(function ($) {
+    var oDataPageName = $('[data-page]').data('page');
+
+    if (oDataPageName !== 'anniversary-Milepost') return;
+
+    //设置左侧背景fixed
+    ;(function () {
+        var asideLeft = $('.banner-wrap .aside-left');
+        var asideTextbg = $('.banner-wrap .aside-textbg');
+        var asideTextbgtop = $('.banner-wrap .aside-textbgtop');
+
+        setBg();
+        $(window).resize(function () {
+            setBg();
+        });
+        function setBg() {
+            if (getScreenSize() !== 'xs') {
+                asideTextbg.css({
+                    width: asideLeft.width(),
+                    height: $(window).height()
+                });
+                asideTextbgtop.css({
+                    width: asideLeft.width(),
+                    height: $(window).height()
+                });
+            } else {
+                asideTextbg.css({
+                    width: '100%',
+                    height: '100%'
+                });
+                asideTextbgtop.css({
+                    width: '100%',
+                    height: '100%'
+                });
+            }
+        }
+    })();
+
+    //设置时间轴
+    ;(function () {
+        var oBox = $('.anniversary-Milepost-wrap'),
+            asideCont = oBox.find('.aside-cont'),
+            asideRight = asideCont.find('.aside-right'),
+            oContLi = asideRight.find('.ul-row li'),
+            asideBottom = asideCont.find('.aside-bottom'),
+            bwrapper = asideBottom.find('.wrapper'),
+            myList = asideBottom.find('#my-list'),
+            string = '';
+
+        //获取信息条数 设置底部时间轴
+        for (var i = 0; i < oContLi.length; i++) {
+            string += '<li><span>' + oContLi.eq(i).find('.title').text() + '</span><a href="javascript:;"></a></li>';
+        }
+        var omargin = bwrapper.width() >= oContLi.length * 42 ? '0 auto' : 0;
+
+        myList.html(string).css({
+            width: oContLi.length * 42 + 'px',
+            margin: omargin
+        });
+
+        //时间轴查看相应的信息
+        //点击时  阻止 scroll事件
+
+
+        var isScroll = true;
+        var iNowCur = 0;
+        myList.on('click', 'li', function () {
+            if ($(this).hasClass('active')) return;
+
+            isScroll = false;
+
+            var _index = $(this).index();
+            var curTop = oContLi.eq(_index).offset().top;
+
+            iNowCur = _index;console.log(iNowCur);
+            myList.find('li').removeClass('active').eq(iNowCur).addClass('active');
+            oContLi.removeClass('active').eq(iNowCur).addClass('active');
+
+            $('html,body').stop().animate({
+                scrollTop: curTop - $(window).height() * 0.5
+            }, 800, function () {
+                isScroll = true;
+            });
+        });
+
+        $(window).on('scroll', function () {
+
+            if (isScroll) {
+                var screenTop = $(window).height() * 0.5;
+                var scroTop = $(window).scrollTop();
+
+                for (var i = 0; i < oContLi.length; i++) {
+                    var offsetTop = oContLi.eq(i).offset().top;
+                    if (scroTop > offsetTop - screenTop) {
+                        iNowCur = i;
+                        myList.find('li').removeClass('active').eq(iNowCur).addClass('active');
+                        oContLi.removeClass('active').eq(iNowCur).addClass('active');
+                    }
+                }
+            }
+        });
+    })();
+})(jQuery);
+/**
+ * Created by Alice on 2018/8/6.
+ */
+;(function ($) {
+    var oDataPageName = $('[data-page]').data('page');
+
+    if (oDataPageName !== 'anniversary-content') return;
+
+    $(function () {
+        // alert(1);  
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            // Get the name of active tab
+            var activeTab = $(e.target).text();
+            // Get the name of previous tab
+            var previousTab = $(e.relatedTarget).text();
+            $(".active-tab span").html(activeTab);
+            $(".previous-tab span").html(previousTab);
+        });
+    });
+
+    var handleHearder = function handleHearder() {
+        var asideLeft = $('.aside-left'),
+            btop = $(this).scrollTop(),
+            bannerHeight = $('.banner').height();
+        if (btop >= bannerHeight) {
+            asideLeft.addClass('top');
+        } else {
+            asideLeft.removeClass('top');
+        }
+    };
+    $(window).on({
+        resize: handleHearder,
+        scroll: handleHearder,
+        load: handleHearder
+    });
+})(jQuery);
+/**
+ * Created by jerry.lin-wun on 2018/8/9.
+ */
+
+;(function ($, undefined) {
+
+    if ($('[data-page]').data('page') !== 'search') return;
+
+    var textConfig = window.siteLang === 'zh-CN' ? {
+        loading: '正在加载数据，请稍后...'
+    } : {
+        loading: 'Data is loading, please wait...'
+    };
+
+    /**
+     * 提示弹窗
+     */
+    var layerModule = new Layer({ selector: '.js-layer-search-tips' });
+
+    /**
+     * 搜索 和 获取keyword
+     */
+    var searchModule = function () {
+
+        var searchInput = $('#search'),
+            totalObj = $('.js-total'),
+            params = getParamVal(),
+            keyword = params.keyword || '',
+            productCategory = params.productCategory,
+            productIndustry = params.productIndustry;
+
+        var handleSearch = function handleSearch() {
+            getSearchData(function (res) {
+                totalObj.find('font').text(res.total);
+                tabModule.renderList(res.result);
+                tabContentModule.renderFromSearch(res.result);
+                pagingModule.renderFromSearch(res.result);
+            });
+        };
+
+        // 为搜索框填写默认值
+        if (keyword) {
+            searchInput.val(keyword);
+            handleSearch();
+        }
+        if (productCategory || productIndustry) {
+            handleSearch();
+        }
+
+        // 点击搜索
+        $('.js-search-btn').on('click', function () {
+            var tmpKeyword = searchInput.val();
+            if (!tmpKeyword || tmpKeyword === keyword) return;
+            keyword = tmpKeyword;
+            handleSearch();
+        });
+        // 按下enter键
+        $(document).keyup(function (event) {
+            if (event.keyCode == 13) {
+                var tmpKeyword = searchInput.val();
+                if (!tmpKeyword || tmpKeyword === keyword) return;
+                keyword = tmpKeyword;
+                handleSearch();
+            }
+        });
+
+        ////一些辅助方法/////
+        // 获取搜索数据
+        function getSearchData(callBack) {
+            var data = { siteLang: JSON.stringify(window.siteLang || $('html').attr('lang')), keyword: '' };
+            if (keyword) {
+                data.keyword = decodeURIComponent(keyword);
+            }
+            if (productCategory) {
+                data.keyword += (data.keyword ? '+' : '') + decodeURIComponent(productCategory);
+            }
+            if (productIndustry) {
+                data.keyword += (data.keyword ? '+' : '') + decodeURIComponent(productIndustry);
+            }
+            if (data.keyword) {
+                keyword = data.keyword;
+                data.keyword = JSON.stringify(data.keyword);
+            }
+            layerModule.text(textConfig.loading).show();
+            //console.log(data);
+            $.ajax({
+                type: 'get',
+                contentType: 'application/json; charset=utf-8',
+                url: getApiUrl('/search/init'),
+                data: data,
+                success: function success(res) {
+                    layerModule.hide();
+                    productCategory = null;
+                    productIndustry = null;
+                    callBack && callBack(parseApi(res).data);
+                },
+                error: function error(err) {
+                    layerModule.text('数据加载失败，请重试');
+                    productCategory = null;
+                    productIndustry = null;
+                    setTimeout(function () {
+                        layerModule.hide();
+                    }, 1000);
+                    console.error(err);
+                }
+            });
+        };
+
+        return {
+            getKeyword: function getKeyword() {
+                return keyword;
+            }
+        };
+    }();
+
+    // tab 选项列表
+    var tabModule = function () {
+
+        var tabList = $('.js-tabs-list'),
+            activeIndex = 0,
+            categoryId = null;
+
+        // 切换选项卡时，保存当前选项卡的categoryId
+        tabList.on('click', 'li a', function () {
+            var thisTab = $(this);
+            activeIndex = thisTab.parent().index();
+            categoryId = thisTab.data('category-id');
+        });
+
+        // 从左到右，自动选中有内容的
+        function autoSelect(index) {
+            tabList.find('li').eq(index).find('a').trigger('click');
+        }
+
+        function renderList(data) {
+            var html = '';
+            var selectIndex = -1;
+            data.forEach(function (item, index) {
+                var classVal = '';
+                if (activeIndex === index) {
+                    classVal = 'active';
+                    categoryId = item.id;
+                }
+                if (selectIndex < 0 && item.amount > 0) {
+                    selectIndex = index;
+                }
+                html += '<li class="' + classVal + '"><a href="#tab-' + item.id + '" data-toggle="tab" data-category-id="' + item.id + '">' + item.category + '（' + item.amount + '）</a></li>';
+            });
+            tabList.html(html);
+            selectIndex > 0 && autoSelect(selectIndex);
+        };
+
+        return {
+            getCategoryId: function getCategoryId() {
+                return categoryId;
+            },
+            renderList: renderList
+        };
+    }();
+
+    /**
+     * tab 内容列表
+     * @type {{renderFromSearch}}
+     */
+    var tabContentModule = function () {
+
+        var tabContent = $('.js-tab-content');
+
+        ////一些辅助方法/////
+        // 获取当前列表数据
+        function getListData(callBack) {
+            var _this = this;
+            layerModule.text(textConfig.loading).show();
+
+            $.ajax({
+                type: 'get',
+                contentType: 'application/json; charset=utf-8',
+                url: pagingModule.getView() === 'thumbnail' ? getApiUrl('/search/thumbnail') : getApiUrl('/search/text'),
+                data: {
+                    siteLang: JSON.stringify(window.siteLang || $('html').attr('lang')),
+                    keyword: JSON.stringify(searchModule.getKeyword()),
+                    categoryId: JSON.stringify(tabModule.getCategoryId()),
+                    pageNum: JSON.stringify(pagingModule.getPageNum())
+                },
+                success: function success(res) {
+                    layerModule.hide();
+                    callBack && callBack.call(_this, parseApi(res).data);
+                },
+                error: function error(err) {
+                    layerModule.text('数据加载失败，请重试');
+                    setTimeout(function () {
+                        layerModule.hide();
+                    }, 1000);
+                    console.error(err);
+                }
+            });
+        };
+        // 渲染当前列表
+        function renderList(data) {
+            //console.log(data)
+            var listObj = $('#tab-' + tabModule.getCategoryId()),
+                html = '';
+            if (data.view === 'thumbnail') {
+                html = getThumbnailHtml(data.data);
+                listObj.find('.js-pro-tab-content').remove();
+            } else {
+                html = getTextListHtml(data.data);
+                listObj.find('.js-list-tab-content').remove();
+            }
+            listObj.prepend(html);
+        };
+        // 来自搜索时，渲染所有列表
+        function renderFromSearch(result) {
+            var html = '',
+                categoryId = tabModule.getCategoryId();
+            result.forEach(function (item) {
+                var activeClass = '';
+                if (categoryId == item.id) {
+                    activeClass = ' active in';
+                }
+                html += '<div class="tab-pane fade' + activeClass + '" id="tab-' + item.id + '">';
+                if (item.data.length) {
+                    // 此处根据view的值来判断显示 缩略图列表(thumbnail) 还是 文字列表(text-list)
+                    html += item.view === 'thumbnail' ? getThumbnailHtml(item.data) : getTextListHtml(item.data);
+                } else {
+                    html += '<div class="list-tab-content">\
+                                <div class="normalItem">\
+                                    <h3 class="text-center">暂无数据...</h3>\
+                                </div>\
+                            </div>';
+                }
+                html += '<ul class="pageCon js-paging-list"></ul>'; // 添加分页父节点
+                html += '</div>';
+            });
+            tabContent.html(html);
+        }
+        // 获取缩略图HTML
+        function getThumbnailHtml(data) {
+            var html = '<div class="product-tab-content js-pro-tab-content">';
+            data.forEach(function (item) {
+                html += '<div class="col-xs-6 col-sm-3 set-col">\
+                            <div class="thumbnail">\
+                                <a href="' + item.url + '">\
+                                    <img src="' + item.image + '" width="100%" alt="' + item.title + '">\
+                                    <div class="caption">\
+                                        <h4>' + item.title + '</h4>\
+                                        <p>' + item.description + '</p>\
+                                    </div>\
+                                </a>\
+                            </div>\
+                        </div>';
+            });
+            html += '</div>';
+            return html;
+        };
+        // 获取文字列表html
+        function getTextListHtml(data) {
+            var html = '<div class="list-tab-content js-list-tab-content">';
+            data.forEach(function (item) {
+                html += '<div class="normalItem">\
+                            <h4><a href="' + item.url + '">' + item.title + '</a></h4>\
+                            <div class="time-marks">\
+                                <span><a href="' + item.typeUrl + '">' + item.type + '</a></span><span>' + item.time + '</span>\
+                            </div>\
+                            <p>' + item.description + '</p>\
+                        </div>';
+            });
+            html += '</div>';
+            return html;
+        };
+
+        return {
+            renderFromSearch: renderFromSearch,
+            getListData: getListData,
+            renderList: renderList
+        };
+    }();
+
+    /**
+     * 分页模块
+     */
+    var pagingModule = function () {
+
+        var viewMap = {},
+            // 每个列表的视图映射表
+        pageNumMap = {}; // 多个列表pageNum映射表
+
+        // 点击分页
+        $('.js-tab-content').on('click', '.js-paging-list li', function () {
+            var thisLi = $(this),
+                ul = thisLi.parents('.js-paging-list'),
+                categoryId = ul.data('category-id'),
+                pageNum = Number(pageNumMap[categoryId]);
+
+            if (thisLi.text() === '...') return;
+
+            if (thisLi.hasClass('li')) {
+                pageNum = Number(thisLi.data('page-num'));
+            } else if (thisLi.hasClass('prev')) {
+                pageNum--;
+            } else if (thisLi.hasClass('next')) {
+                pageNum++;
+            }
+            pageNumMap[categoryId] = pageNum;
+            renderList({
+                listObj: ul,
+                pageNum: pageNumMap[categoryId],
+                pageSize: Number(ul.data('page-size')),
+                amount: Number(ul.data('amount'))
+            });
+            tabContentModule.getListData(function (res) {
+                this.renderList(res);
+            });
+        });
+
+        ////一些辅助方法/////
+        // 来自搜索时，渲染所有列表
+        function renderFromSearch(result) {
+            result.forEach(function (item) {
+                var ul = $('#tab-' + item.id).find('.js-paging-list');
+                pageNumMap[item.id] = 1; // 保存pageNum，初始值1
+                viewMap[item.id] = item.view; // 保存当前列表视图值
+                ul.attr({
+                    'data-category-id': item.id,
+                    'data-page-size': item.pageSize,
+                    'data-amount': item.amount
+                });
+                renderList({
+                    listObj: ul,
+                    pageNum: pageNumMap[item.id],
+                    pageSize: Number(item.pageSize),
+                    amount: Number(item.amount)
+                });
+            });
+        };
+        // 渲染列表
+        function renderList(opts) {
+            var html = '',
+                pageNum = opts.pageNum,
+                pageTotal = Math.ceil(opts.amount / opts.pageSize),
+                end = Math.ceil(pageNum / 3) * 3,
+                start;
+
+            end = end > pageTotal ? pageTotal : end;
+            start = end - 2 > 0 ? end - 2 : 1;
+
+            //console.log('start: ' + start + ' ,end: ' + end);
+
+            // 上一页
+            if (pageNum > 1) {
+                html += '<li class="prev"><a href="javascript:;"><span class="glyphicon glyphicon-menu-left"></span></a></li>';
+            }
+
+            // 循环渲染数字
+            for (var i = start; i <= end; i++) {
+                html += '<li class="li' + (i === pageNum ? ' active' : '') + '" data-page-num="' + i + '"><a href="javascript:;">' + i + '</a></li>';
+            }
+
+            // ...
+            if (pageTotal - end > 1) {
+                html += '<li>...</li>';
+            }
+            // total
+            if (pageTotal > end) {
+                html += '<li class="li" data-page-num="' + pageTotal + '"><a href="javascript:;">' + pageTotal + '</a></li>';
+            }
+
+            // 下一页
+            if (pageNum < pageTotal) {
+                html += '<li class="next"><a href="javascript:;"><span class="glyphicon glyphicon-menu-right"></span></a></li>';
+            }
+
+            opts.listObj.html(html);
+        };
+
+        return {
+            renderFromSearch: renderFromSearch,
+            getPageNum: function getPageNum() {
+                return pageNumMap[tabModule.getCategoryId()];
+            },
+            getView: function getView() {
+                return viewMap[tabModule.getCategoryId()];
+            }
+        };
+    }();
+})(jQuery);
+$(function () {
+
+    if ($('[data-page]').data('page') !== 'career-detail') return;
+
+    /**
+     * 弹层出现和关闭
+     * .js-go-apply--前往柳工人才网应聘按钮
+     *     弹层.js-welcome-pop
+     *          弹层主内容.welcome-content
+     * 
+     */
+    /*(function(){
+        var equipName = getEquip();
+        var screenSize = getScreenSize();
+        var go_apply = $('.js-go-apply');
+        var welcome_pop = $('.js-welcome-pop'),
+            pop_content = welcome_pop.find('.welcome-content');
+        if (equipName == 'pc' || screenSize!='xs' ){
+            go_apply.on("click",function(){
+                welcome_pop.fadeIn(500,function(){
+                    pop_content.addClass('active');
+                });
+            })
+              // 隐藏弹窗
+            welcome_pop.on('click',function(){
+                pop_content.removeClass('active');
+                welcome_pop.fadeOut();
+            });
+            pop_content.on('click',function(e){
+                e.stopPropagation();
+            });
+        }
+    })()*/
+});
+/**
+ * Created by chenyue on 2018/8/15.
+ */
+$(function () {
+
+    var oDataPageName = $('[data-page]').data('page');
+    if (oDataPageName !== 'winning-record' && oDataPageName !== 'winning-record-cn') return;
+
+    //切换选项
+    // ;(function() {
+    //     var oBox = $('.select-price'),
+    //         titleSelect = oBox.find('.title-select'),
+    //         oUl = titleSelect.find('ul.left');
+    //
+    //      //开始切换
+    //     oUl.find('li').eq(0).addClass('active');
+    //      oUl.find('li').on('click',function(){
+    //          var _index = $(this).index();
+    //
+    //          oUl.find('li').removeClass('active').eq(_index).addClass('active');
+    //
+    //      });
+    //
+    // })();
+
+    //按钮 加载更多
+    ;(function () {
+        var oBox = $('.record-list'),
+            oUl = oBox.find('.table'),
+            oBtn = oBox.find('.btn'),
+            counter = 0,
+            pageStart = 0,
+            pageSize = 5;
+
+        var getData = function getData(offset, size) {
+            var sum = oUl.find('tr').length,
+                result = '';
+            /*隐藏more*/
+            if (offset + size >= sum) {
+                oBtn.hide();
+            } else {
+                oBtn.show();
+            }
+            if (sum - offset < size) {
+                size = sum - offset;
+            }
+            for (var i = offset; i < offset + size; i++) {
+                oUl.find('tr').eq(i).addClass('active');
+            }
+            oUl.append(result);
+
+            // ;(function(index) {
+            //     setTimeout(function() {
+            //         if( getScreenSize() === 'xs' ) {
+            //             console.log(index);
+            //             console.log( $('table.table').find('tr').eq(5).offset().top );
+            //             $('html,body').stop().animate({
+            //                 scrollTop: $('table.table').find('tr').eq(5).offset().top
+            //             },500);
+            //         }
+            //     },200);
+            // })(offset + size);
+        };
+        //初始化
+        getData(pageStart, pageSize);
+        //加载更多
+        oBtn.on('click', function () {
+            /*首次加载*/
+            ++counter;
+            pageStart = counter * pageSize;
+            getData(pageStart, pageSize);
+        });
+    })();
+
+    //分页 加载更多
+    // ;(function() {
+    //     var oBox = $('.select-price'),
+    //         oUl = oBox.find('.news-list'),
+    //         counter = 0,
+    //         pageStart = 0,
+    //         pageSize = 5,
+    //         getScreen = getScreenSize();
+    //
+    //     var getData = function(offset,size){
+    //         var data = [
+    //                 {
+    //                     title: '1一条振奋人心的消息从蒙古国首都乌兰巴托传到公司总部',
+    //                     notice: '公司公告',
+    //                     timer: '2018-06-27',
+    //                     text: '6月11日，自治区农机局局长韦周凡率队到柳工农机公司考察调研。公司党委书记、董事长曾光安参加座谈会。调研组一行首先来到农机公司甘蔗收获装配生产线进行考察，参观了农机公司甘蔗收获机新产品的现场演示。希望柳工农机公司成为推动广西农业机械化发展的标杆企业，自治区农机局将会继续大力支持柳工农机业务的发展。',
+    //                     href: 'winning-record-detail.html'
+    //                 },
+    //                 {
+    //                     title: '2一条振奋人心的消息从蒙古国首都乌兰巴托传到公司总部',
+    //                     notice: '公司公告',
+    //                     timer: '2018-06-27',
+    //                     text: '6月11日，自治区农机局局长韦周凡率队到柳工农机公司考察调研。公司党委书记、董事长曾光安参加座谈会。调研组一行首先来到农机公司甘蔗收获装配生产线进行考察，参观了农机公司甘蔗收获机新产品的现场演示。希望柳工农机公司成为推动广西农业机械化发展的标杆企业，自治区农机局将会继续大力支持柳工农机业务的发展。',
+    //                     href: 'winning-record-detail.html'
+    //                 },
+    //                 {
+    //                     title: '3一条振奋人心的消息从蒙古国首都乌兰巴托传到公司总部',
+    //                     notice: '公司公告',
+    //                     timer: '2018-06-27',
+    //                     text: '6月11日，自治区农机局局长韦周凡率队到柳工农机公司考察调研。公司党委书记、董事长曾光安参加座谈会。调研组一行首先来到农机公司甘蔗收获装配生产线进行考察，参观了农机公司甘蔗收获机新产品的现场演示。希望柳工农机公司成为推动广西农业机械化发展的标杆企业，自治区农机局将会继续大力支持柳工农机业务的发展。',
+    //                     href: 'winning-record-detail.html'
+    //                 },
+    //                 {
+    //                     title: '4一条振奋人心的消息从蒙古国首都乌兰巴托传到公司总部',
+    //                     notice: '公司公告',
+    //                     timer: '2018-06-27',
+    //                     text: '6月11日，自治区农机局局长韦周凡率队到柳工农机公司考察调研。公司党委书记、董事长曾光安参加座谈会。调研组一行首先来到农机公司甘蔗收获装配生产线进行考察，参观了农机公司甘蔗收获机新产品的现场演示。希望柳工农机公司成为推动广西农业机械化发展的标杆企业，自治区农机局将会继续大力支持柳工农机业务的发展。',
+    //                     href: 'winning-record-detail.html'
+    //                 },
+    //                 {
+    //                     title: '5一条振奋人心的消息从蒙古国首都乌兰巴托传到公司总部',
+    //                     notice: '公司公告',
+    //                     timer: '2018-06-27',
+    //                     text: '6月11日，自治区农机局局长韦周凡率队到柳工农机公司考察调研。公司党委书记、董事长曾光安参加座谈会。调研组一行首先来到农机公司甘蔗收获装配生产线进行考察，参观了农机公司甘蔗收获机新产品的现场演示。希望柳工农机公司成为推动广西农业机械化发展的标杆企业，自治区农机局将会继续大力支持柳工农机业务的发展。',
+    //                     href: 'winning-record-detail.html'
+    //                 },
+    //                 {
+    //                     title: '6一条振奋人心的消息从蒙古国首都乌兰巴托传到公司总部',
+    //                     notice: '公司公告',
+    //                     timer: '2018-06-27',
+    //                     text: '6月11日，自治区农机局局长韦周凡率队到柳工农机公司考察调研。公司党委书记、董事长曾光安参加座谈会。调研组一行首先来到农机公司甘蔗收获装配生产线进行考察，参观了农机公司甘蔗收获机新产品的现场演示。希望柳工农机公司成为推动广西农业机械化发展的标杆企业，自治区农机局将会继续大力支持柳工农机业务的发展。',
+    //                     href: 'winning-record-detail.html'
+    //                 },
+    //                 {
+    //                     title: '7一条振奋人心的消息从蒙古国首都乌兰巴托传到公司总部',
+    //                     notice: '公司公告',
+    //                     timer: '2018-06-27',
+    //                     text: '6月11日，自治区农机局局长韦周凡率队到柳工农机公司考察调研。公司党委书记、董事长曾光安参加座谈会。调研组一行首先来到农机公司甘蔗收获装配生产线进行考察，参观了农机公司甘蔗收获机新产品的现场演示。希望柳工农机公司成为推动广西农业机械化发展的标杆企业，自治区农机局将会继续大力支持柳工农机业务的发展。',
+    //                     href: 'winning-record-detail.html'
+    //                 },
+    //                 {
+    //                     title: '8一条振奋人心的消息从蒙古国首都乌兰巴托传到公司总部',
+    //                     notice: '公司公告',
+    //                     timer: '2018-06-27',
+    //                     text: '6月11日，自治区农机局局长韦周凡率队到柳工农机公司考察调研。公司党委书记、董事长曾光安参加座谈会。调研组一行首先来到农机公司甘蔗收获装配生产线进行考察，参观了农机公司甘蔗收获机新产品的现场演示。希望柳工农机公司成为推动广西农业机械化发展的标杆企业，自治区农机局将会继续大力支持柳工农机业务的发展。',
+    //                     href: 'winning-record-detail.html'
+    //                 },
+    //                 {
+    //                     title: '9一条振奋人心的消息从蒙古国首都乌兰巴托传到公司总部',
+    //                     notice: '公司公告',
+    //                     timer: '2018-06-27',
+    //                     text: '6月11日，自治区农机局局长韦周凡率队到柳工农机公司考察调研。公司党委书记、董事长曾光安参加座谈会。调研组一行首先来到农机公司甘蔗收获装配生产线进行考察，参观了农机公司甘蔗收获机新产品的现场演示。希望柳工农机公司成为推动广西农业机械化发展的标杆企业，自治区农机局将会继续大力支持柳工农机业务的发展。',
+    //                     href: 'winning-record-detail.html'
+    //                 },
+    //                 {
+    //                     title: '10一条振奋人心的消息从蒙古国首都乌兰巴托传到公司总部',
+    //                     notice: '公司公告',
+    //                     timer: '2018-06-27',
+    //                     text: '6月11日，自治区农机局局长韦周凡率队到柳工农机公司考察调研。公司党委书记、董事长曾光安参加座谈会。调研组一行首先来到农机公司甘蔗收获装配生产线进行考察，参观了农机公司甘蔗收获机新产品的现场演示。希望柳工农机公司成为推动广西农业机械化发展的标杆企业，自治区农机局将会继续大力支持柳工农机业务的发展。',
+    //                     href: 'winning-record-detail.html'
+    //                 },
+    //             ],
+    //             sum = oUl.find('li').length,
+    //             result = '';
+    //
+    //         if(sum - offset < size ){
+    //             size = sum - offset;
+    //         }
+    //         console.log(offset);
+    //         for(var i = offset; i< (offset + size); i++ ) {
+    //             oUl.find('li').eq(i).addClass('active');
+    //             // result += '<li class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-left">\
+    //             //                 <a href="' + data[i].href + '">\
+    //             //                     <div class="oImg">\
+    //             //                         <img src="' + data[i].oImg + '"><span></span>\
+    //             //                     </div>\
+    //             //                     <div class="text">\
+    //             //                         <div class="cont-text">\
+    //             //                             <div class="txt">\
+    //             //                                 <p class="title">'+data[i].title+'</p>\
+    //             //                                 <p class="des1">'+data[i].des1+'</p>\
+    //             //                              </div>\
+    //             //                             <p class="des2">'+data[i].des2+'</p>\
+    //             //                             <span class="icon-img ' +(function() {
+    //             //         var mark = data[i].icon === '' ? 'active' : '';
+    //             //         return mark;
+    //             //
+    //             //     })()+ '">\
+    //             //                                 <img src="'+data[i].icon+'">\
+    //             //                             </span>\
+    //             //                         </div>\
+    //             //                     </div>\
+    //             //                 </a>\
+    //             //           </li>';
+    //         }
+    //         oUl.append(result);
+    //         // setHeight();
+    //     };
+    //     //初始化
+    //     getData(pageStart, pageSize);
+    //
+    //     $('#pageToolbar').Paging({ pagesize: 8, count: oUl.find('.items').length, oElement: oUl.find('.items'), toolbar: true });
+    //
+    //
+    // })();
+
+});
+/**
+ * Created by chenyue on 2018/8/15.
+ */
+$(function () {
+
+    var oDataPageName = $('[data-page]').data('page');
+    if (oDataPageName !== 'winning-record-detail') return;
+
+    var swipe = new Swipe({ 'elem': document.getElementById('recordBanner') }),
+        recordBanner = $('#recordBanner');
+
+    //自动轮播
+    recordBanner.carousel({
+        'interval': 3000,
+        'wrap': true //是否持续轮播
+    });
+
+    // 手势滑动
+    swipe.on('left', function () {
+        recordBanner.carousel('next');
+    });
+    swipe.on('right', function () {
+        recordBanner.carousel('prev');
+    });
+});
+/**
+ * Created by chenyue on 2018/8/22.
+ */
+$(function () {
+
+    var oDataPageName = $('[data-page]').data('page');
+    if (oDataPageName !== 'about-us') return;
+
+    //柳工文化
+    ;(function () {
+        var swipe = new Swipe({ 'elem': document.getElementById('culturebanner') }),
+            solveBanner = $('#culturebanner');
+
+        //自动轮播
+        // solveBanner.carousel({
+        //     'interval': 3000,
+        //     'wrap': true //是否持续轮播
+        // });
+
+        // 手势滑动
+        swipe.on('left', function () {
+            solveBanner.carousel('next');
+        });
+        swipe.on('right', function () {
+            solveBanner.carousel('prev');
+        });
+    })();
+});
+/**
+ * Created by jerry.lin-wun on 2018/11/5.
+ */
+;(function ($, undefined) {
+
+    if ($('[data-page]').data('page') !== 'situation') return;
+
+    console.log($('.situation-wrap .BranchOffice .situation-con'));
+    $('.situation-wrap .BranchOffice .situation-con').on('click', function () {
+        var _this = $(this);
+        $('#allmap').data('mapApi').position({
+            center: { lng: _this.data('lng'), lat: _this.data('lat') },
+            zoom: 8
+        });
+        $('html, body').animate({ scrollTop: 0 });
+    });
+})(jQuery);
+/**
+ * Created by jerry.lin-wun on 2018/11/13.
+ */
+;(function ($, undefined) {
+
+    var stockWrap = $('.stock-wrap');
+    if (!stockWrap.get(0)) return;
+
+    //判断单张图片加载完成方法
+    var loadImg = function loadImg(obj, src, callBack, error) {
+        if (obj.readyState) {
+            //IE
+            obj.onreadystatechange = function () {
+                if (obj.readyState == 'loaded' || obj.readyState == 'complete') {
+                    obj.onreadystatechange = null;
+                    typeof callBack == 'function' && callBack();
+                }
+            };
+        } else {
+            //Others: Firefox, Safari, Chrome, and Opera
+            obj.onload = function () {
+                typeof callBack == 'function' && callBack();
+            };
+        };
+        obj.onerror = function () {
+            typeof error === 'function' && error();
+        };
+        obj.src = src;
+    };
+    //判断动态js文件加载完成方法  标签名target：加载js文件到指定的位置 如 head、 body; 缺省值head,
+    var loadScript = function loadScript(src, callBack, target, error) {
+        var script = document.createElement('script');
+        script.charset = 'gb2312';
+        target = typeof target === 'undefined' || target === '' || target === null ? 'head' : target;
+        document.getElementsByTagName(target)[0].appendChild(script);
+        loadImg(script, src, callBack, error);
+    };
+
+    // 实时时间
+    function CurentTime() {
+        var now = new Date();
+        var year = now.getFullYear(); //年
+        var month = now.getMonth() + 1; //月
+        var day = now.getDate(); //日
+        var hh = now.getHours(); //时
+        var mm = now.getMinutes(); //分
+        var clock = year + '-';
+        if (month < 10) {
+            clock += '0';
+        }
+        clock += month + '-';
+        if (day < 10) {
+            clock += '0';
+        }
+        clock += day + ' ';
+        if (hh < 10) {
+            clock += '0';
+        }
+        clock += hh + ':';
+        if (mm < 10) {
+            clock += '0';
+        }
+        clock += mm;
+        return clock;
+    }
+
+    // 上半部分
+    loadScript('https://hq.sinajs.cn/list=s_sz000528', function () {
+        var elements = hq_str_s_sz000528.split(',');
+        var tempint = parseFloat(elements[2]);
+        var str = '';
+        if (tempint > 0) {
+            str = '<span class="darkred mainnum">' + elements[1] + '</span> <span class="darkred" style="font-size:14px;font-weight:bold;">' + elements[2] + '(' + elements[3] + '%)</span><br />';
+        } else {
+            str = '<span class="green mainnum">' + elements[1] + '</span> <span class="green" style="font-size:14px;font-weight:bold;">' + elements[2] + '(' + elements[3] + '%)</span><br />';
+        }
+        str += '<span>SINA的即时资料 - 免责声明</span><span style="margin-left:5px;">' + CurentTime() + '</span>';
+        stockWrap.find('.investorpic').after(str);
+        if (parseFloat(elements[2]) > 0) {
+            jQuery('#stockImg').attr('src', 'data:image/gif;base64,R0lGODlhFQATAJEAAP///8kAAJQAAAAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjAgNjEuMTM0Nzc3LCAyMDEwLzAyLzEyLTE3OjMyOjAwICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RjMxMzY2REY4ODI4MTFFMEIyNEJFQ0I0QTcwNjQ0QUMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RjMxMzY2RTA4ODI4MTFFMEIyNEJFQ0I0QTcwNjQ0QUMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpGMzEzNjZERDg4MjgxMUUwQjI0QkVDQjRBNzA2NDRBQyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpGMzEzNjZERTg4MjgxMUUwQjI0QkVDQjRBNzA2NDRBQyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgH//v38+/r5+Pf29fTz8vHw7+7t7Ovq6ejn5uXk4+Lh4N/e3dzb2tnY19bV1NPS0dDPzs3My8rJyMfGxcTDwsHAv769vLu6ubi3trW0s7KxsK+urayrqqmop6alpKOioaCfnp2cm5qZmJeWlZSTkpGQj46NjIuKiYiHhoWEg4KBgH9+fXx7enl4d3Z1dHNycXBvbm1sa2ppaGdmZWRjYmFgX15dXFtaWVhXVlVUU1JRUE9OTUxLSklIR0ZFRENCQUA/Pj08Ozo5ODc2NTQzMjEwLy4tLCsqKSgnJiUkIyIhIB8eHRwbGhkYFxYVFBMSERAPDg0MCwoJCAcGBQQDAgEAACH5BAAAAAAALAAAAAAVABMAAAI4hI+ByxnaInhUMortwVzzL31iI5ZLiW4oJmRB+z7tHFPwRdMakMfCLggKhcDhsGgMIpNLY/O4KAAAOw==');
+        } else {
+            jQuery('#stockImg').attr('src', 'data:image/gif;base64,R0lGODlhFQATAKIAAP///wCMAABgAP7+/v39/fz8/AAAAAAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjAgNjEuMTM0Nzc3LCAyMDEwLzAyLzEyLTE3OjMyOjAwICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IFdpbmRvd3MiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RDAzRjU1ODE4ODI4MTFFMEI3RDdBOEYwNzgyODFCNzEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RDAzRjU1ODI4ODI4MTFFMEI3RDdBOEYwNzgyODFCNzEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpEMDNGNTU3Rjg4MjgxMUUwQjdEN0E4RjA3ODI4MUI3MSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpEMDNGNTU4MDg4MjgxMUUwQjdEN0E4RjA3ODI4MUI3MSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgH//v38+/r5+Pf29fTz8vHw7+7t7Ovq6ejn5uXk4+Lh4N/e3dzb2tnY19bV1NPS0dDPzs3My8rJyMfGxcTDwsHAv769vLu6ubi3trW0s7KxsK+urayrqqmop6alpKOioaCfnp2cm5qZmJeWlZSTkpGQj46NjIuKiYiHhoWEg4KBgH9+fXx7enl4d3Z1dHNycXBvbm1sa2ppaGdmZWRjYmFgX15dXFtaWVhXVlVUU1JRUE9OTUxLSklIR0ZFRENCQUA/Pj08Ozo5ODc2NTQzMjEwLy4tLCsqKSgnJiUkIyIhIB8eHRwbGhkYFxYVFBMSERAPDg0MCwoJCAcGBQQDAgEAACH5BAAAAAAALAAAAAAVABMAAANMWLrS7muRSZ+lONuXyfjg5oBkKTblAKzsKbBwLARzTcc4QO82vv82W2A4C+iGyGSyOGQpn88YdJqbKnMraxObpXKd0S/sKpZuy9JvAgA7');
+        }
+    });
+
+    // 上证指数
+    loadScript('https://hq.sinajs.cn/list=s_sh000001', function () {
+        var elements = hq_str_s_sh000001.split(',');
+        var floats = elements[3];
+        var str = '<td width="19%" align="left">上证综指</td>';
+        str += '<td width="26%" align="right">' + elements[1] + '</td>';
+        if (floats < 0) {
+            str += '<td width="18%" align="right"><span class="green">' + elements[3] + '%</span></td>';
+        } else {
+            str += '<td width="18%" align="right"><span class="darkred">' + elements[3] + '%</span></td>';
+        }
+        $('#SHfloats').html(str);
+    });
+
+    // 深证指数
+    loadScript('https://hq.sinajs.cn/list=s_sz399001', function () {
+        var elements = hq_str_s_sz399001.split(',');
+        var floats = elements[3];
+        var str = '<td width="19%" align="left">深证成指</td>';
+        str += '<td width="26%" align="right">' + elements[1] + '</td>';
+        if (floats < 0) {
+            str += '<td width="18%" align="right"><span class="green">' + elements[3] + '%</span></td>';
+        } else {
+            str += '<td width="18%" align="right"><span class="darkred">' + elements[3] + '%</span></td>';
+        }
+        $('#SZfloats').html(str);
+    });
+
+    // 柳工指数
+    loadScript('https://hq.sinajs.cn/list=s_sz000528', function () {
+        var elements = hq_str_s_sz000528.split(',');
+        var floats = elements[3];
+        var str = '<td width="19%" align="left">柳&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;工</td>';
+        str += '<td width="26%" align="right">' + elements[1] + '元</td>';
+        if (floats < 0) {
+            str += '<td width="18%" align="right"><span class="green">' + elements[3] + '%</span></td>';
+        } else {
+            str += '<td width="18%" align="right"><span class="darkred">' + elements[3] + '%</span></td>';
+        }
+        $('#LGfloats').html(str);
+    });
+
+    // 股票详情
+    loadScript('https://hq.sinajs.cn/list=s_sz000528', function () {
+        loadScript('https://hq.sinajs.cn/list=sz000528', function () {
+            loadScript('https://finance.sina.com.cn/realstock/company/sz000528/jsvar.js', function () {
+                function timeToInt(timestr) {
+                    var time_arr = (timestr || '0:0:0').split(':');
+                    return time_arr[0] * 10000 + time_arr[1] * 100 + time_arr[2] * 1;
+                }
+                var elements = hq_str_s_sz000528.split(',');
+                var elements1 = hq_str_sz000528.split(',');
+                var calAmt = elements1[3];
+                var totalmart = parseFloat((timeToInt(elements1[31]) < 93000 ? elements1[2] : calAmt) * totalcapital / 10000).toFixed(2);
+                var tb = jQuery('.stockdetail table');
+                var zdf = parseInt(elements[2]);
+                tb.find('tr:eq(2) td:last').html(elements1[2] + '元'); //昨日收盘
+                tb.find('tr:eq(3) td:last').html(elements1[1] + '元'); //今日开盘
+                tb.find('tr:eq(4) td:last').html(elements1[4] + '元'); //最高价
+                tb.find('tr:eq(5) td:last').html(elements1[5] + '元'); //最低价
+                if (zdf > 0) {
+                    tb.find('tr:eq(1) td:last').html('<span>' + elements[1] + '元</span>'); //最新价格
+                    tb.find('tr:eq(6) td:last').html('<span>' + elements[2] + '元</span>'); //涨跌
+                    tb.find('tr:eq(7) td:last').html('<span>' + elements[3] + '%</span>'); //涨跌幅
+                } else {
+                    tb.find('tr:eq(1) td:last').html('<span>' + elements[1] + '元</span>'); //最新价格
+                    tb.find('tr:eq(6) td:last').html('<span>' + elements[2] + '元</span>'); //涨跌
+                    tb.find('tr:eq(7) td:last').html('<span>' + elements[3] + '%</span>'); //涨跌幅
+                }
+                tb.find('tr:eq(8) td:last').html(elements[4] + '手'); //成交量
+                tb.find('tr:eq(9) td:last').html(elements[5] + '万'); //成交额
+                tb.find('tr:eq(10) td:last').html(totalmart + '亿'); //总市值
+                tb.find('tr:odd').addClass('odd');
+            });
+        });
+    });
+})(jQuery);
+/**
+ * Created by jerry.lin-wun on 2018/8/6.
+ */
+;(function ($, undefined) {
+
+    if ($('[data-page]').data('page') !== 'news-detail') return;
+
+    // 中英文文案
+    var textConfig = window.siteLang === 'zh-CN' ? {
+        copyUrl: '复制链接',
+        copySuccess: '复制成功！',
+        shareInfo: {
+            sharing: '分享方式',
+            shareTip: '点击右上角，使用微信分享功能',
+            mode1: '方式1：请保存二维码在微信打开',
+            mode2: '方式2：使用浏览器分享功能分享文章'
+        }
+    } : {
+        copyUrl: 'Copy Url',
+        copySuccess: 'Copy Successful!',
+        shareInfo: {
+            sharing: 'Sharing',
+            shareTip: 'Please click the button on top right corner to use Wechat sharing function.',
+            mode1: 'Mode 1: Please save QR Code and open it with Wechat.',
+            mode2: 'Mode 2: Please use Sharing function of browser to share article.'
+        }
+
+        // 拷贝当前url
+    };$('.copy-link').attr('title', textConfig.copyUrl);
+    var clipboard = new ClipboardJS('.copy-link', {
+        text: function text() {
+            return window.location.href;
+        }
+    });
+    clipboard.on('success', function (e) {
+        utilLayers.toast(textConfig.copySuccess);
+        e.clearSelection();
+    });
+
+    // 微信分享
+    if (window.getScreenSize() !== 'xs') {
+        var timer = null;
+        $('.wxwb.wx').on({
+            'mouseover': function mouseover() {
+                clearTimeout(timer);
+                $(this).find('i').show();
+            },
+            'mouseout': function mouseout() {
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    $(this).find('i').hide();
+                }.bind(this), 50);
+            }
+        });
+    } else {
+        $('.wxwb.wx').on('click', function () {
+            var qrcode = $(this).find('i img').attr('src');
+            utilLayers.shareToWeChat(qrcode, textConfig.shareInfo);
+        });
+    }
+})(jQuery);

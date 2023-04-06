@@ -1,0 +1,132 @@
+/**
+ * Created by jerry.lin-wun on 2018/10/26.
+ * 第一时间执行的js文件
+ */
+
+/**
+ * 根目录页面跳转
+ * 根据浏览器语系来跳转到各自的语言站点
+ */
+(function () {
+
+    if (window.document.location.pathname === '/zh-CN' || window.document.location.pathname === '/zh-CN/') {
+        window.location.href = '/zh-CN/ch';
+        return;
+    }
+    if (!window.dev && window.document.location.pathname === '/') {
+        // 获取浏览器语系
+        var type = navigator.appName, lang = '';
+        if (type === 'Netscape'){
+            lang = navigator.language;//获取浏览器配置语言，支持非IE浏览器
+        }else{
+            lang = navigator.userLanguage;//获取浏览器配置语言，支持IE5+ == navigator.systemLanguage
+        };
+        lang = lang.substr(0, 2);//获取浏览器配置语言前两位
+        if (lang === 'zh') {
+            window.location.href = '/zh-CN/ch';
+        } else {
+            window.location.href = '/en';
+        }
+    }
+
+})();
+
+function loadJs (url, attrs, callback) {
+    const script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.async = true
+    for (var attr in attrs) {
+        script.setAttribute(attr, attrs[attr])
+    }
+    if (typeof (callback) != 'undefined') {
+        if (script.readyState) {
+            script.onreadystatechange = function () {
+                if (script.readyState === 'loaded' || script.readyState === 'complete') {
+                    script.onreadystatechange = null
+                    callback()
+                }
+            }
+        } else {
+            script.onload = function () {
+                callback()
+            }
+        }
+    }
+    script.src = url
+    document.getElementsByTagName('head')[0].appendChild(script)
+}
+
+function ready( f ){
+    var ie = !!(window.attachEvent && !window.opera);
+    var wk = /webkit\/(\d+)/i.test(navigator.userAgent) && (RegExp.$1 < 525);
+    var fn = [];
+    var run = function () { for (var i = 0; i < fn.length; i++) fn[i](); };
+    var d = document;
+
+    if (!ie && !wk && d.addEventListener)
+        return d.addEventListener('DOMContentLoaded', f, false);
+    if (fn.push(f) > 1) return;
+    if (ie)
+        (function () {
+            try { d.documentElement.doScroll('left'); run(); }
+            catch (err) { setTimeout(arguments.callee, 0); }
+        })();
+    else if (wk)
+        var t = setInterval(function () {
+            if (/^(loaded|complete)$/.test(d.readyState))
+                clearInterval(t), run();
+        }, 0);
+}
+
+
+/**
+ * GA基础检测
+ */
+(function () {
+
+    // Global site tag (gtag.js) - Google Analytics
+    loadJs('https://www.googletagmanager.com/gtag/js?id=UA-136075179-1', {}, function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-136075179-1');
+    })
+
+})();
+
+/**
+ * cnzz
+ */
+(function () {
+
+    ready(function () {
+        var cnzz_protocol = (('https:' == document.location.protocol) ? 'https://' : 'http://')
+        var cnzz_str = unescape('%3Cspan id=\'cnzz_stat_icon_1276849298\'%3E%3C/span%3E%3Cscript src=\'' + cnzz_protocol + 's96.cnzz.com/z_stat.php%3Fid%3D1276849298\' type=\'text/javascript\'%3E%3C/script%3E')
+        // 将 站长统计 放到底部
+        $('#footer .copyright .left-part').append(cnzz_str)
+    })
+
+})();
+
+/**
+ * cookie
+ */
+(function () {
+
+    // 只有英文版才需要该功能
+    if (typeof siteLang === 'undefined' || siteLang !== 'en') return
+
+    ready(function () {
+        // <div class="optanon-alert-box-wrapper"></div><div id="optanon-cookie-policy"></div>
+        $('body').append('<a class="optanon-show-settings">Cookie Settings</a>');
+        // https://optanon.blob.core.windows.net/consent/27c2374e-e2a7-4011-8360-b3879daf76b3.js
+        // https://cdn.cookielaw.org/consent/27c2374e-e2a7-4011-8360-b3879daf76b3.js
+        loadJs('https://cdn.cookielaw.org/consent/27c2374e-e2a7-4011-8360-b3879daf76b3.js', {charset: 'UTF-8'}, function () {
+            //console.log('loadjs success')
+        })
+    })
+    window.OptanonWrapper = function () {
+
+    }
+
+})();
