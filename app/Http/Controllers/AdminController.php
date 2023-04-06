@@ -45,7 +45,7 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $data = Admin::where('email',$request->email)->first();
-        // dd($data->password);
+        // dd($data);
         $pass = $request->login['password'];
         if($data){
             // dd(Hash::check($pass,$data->password));

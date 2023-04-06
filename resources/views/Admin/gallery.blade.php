@@ -86,7 +86,7 @@ table.table td .add {
                                 <td>{{(isset($g->updated_at) ? date_format(date_create($g->updated_at),'d-M-Y') : 'Not updated yet...')}}</td>
                                 <td> <center>
                                     <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                    <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                    <a class="delete" title="Delete"href="{{ url('admin/gallery/delete/'.md5($g->id)) }}" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                                   <a class="view" title="View" data-toggle="tooltip"><i class="material-symbols-outlined">visibility</i></a></center>
                                 </td>
                             </tr>

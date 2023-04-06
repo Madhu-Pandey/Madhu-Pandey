@@ -20,7 +20,7 @@ class EmailSupportController extends Controller
         $data = array();
         $data['data1'] = $request->email;
         // dd($data);
-        if(Mail::send('email',$data, function ($message) use ($to_email) {
+        if(Mail::send('newsletter2',$data, function ($message) use ($to_email) {
             $message->to($to_email)->subject('Thanks For Subscribing..!');
             $message->from('guruleenrpr@gmail.com', 'Test Mail');
         })){

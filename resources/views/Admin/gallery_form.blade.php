@@ -52,14 +52,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="field-3" class="form-label">Gallery Sequence Number</label>
-                                            <input type="number" name="seq_no"  class="form-control" placeholder="Enter Sequence" required>
 
-                                        </div>
-                                    </div>
-                                    </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="field-3" class="form-label">Upload Image</label>
@@ -67,9 +60,10 @@
                                             <input type="hidden" class="form-control" name="pre_ref_file[]" value="{{isset($data->ref_file)??$data->ref_file}}">
                                         </div>
                                     </div>
+                                </div>
                                 <center>
                                     <!-- for file preview -->
-                                    <legend style="color:#7366ff; font-size:19px; font-weight:bold;">Image Preview:</legend>
+                                    <legend style="color:#22E3ff; font-size:19px; font-weight:bold;">Image Preview:</legend>
                                     <div class="row pt-4 pb-4 mb-3" style="border: 1px double #22E3ff; border-radius:10px;" id="main_viewer" >
                                         <?php if(isset($data->ref_file) && is_array(json_decode($data->ref_file))) { foreach(json_decode($data->ref_file) as $f){
                                         if(!(file_exists(asset('uploads/'.$f)))) { ?>

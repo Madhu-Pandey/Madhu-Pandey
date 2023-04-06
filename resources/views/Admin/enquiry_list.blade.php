@@ -97,7 +97,7 @@ table.table td .add {
                                         <td>{{$enq->created_at}}</td>
                                         <td>
                                         <center>
-                                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                            <a class="delete" title="Delete"  data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                                             <a class="view" title="View" data-toggle="tooltip"><i class="material-symbols-outlined">visibility</i></a>
                                         </center>
                                         </td>

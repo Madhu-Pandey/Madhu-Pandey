@@ -96,6 +96,9 @@ class AchiveController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deleted = Achievement::where((DB::raw('md5(id)')),$id)->delete();
+        if($deleted){
+            return redirect('admin/achievements/list');
+        }
     }
 }

@@ -51,20 +51,15 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="field-3" class="form-label">Achievement Sequence Number</label>
-                                            <input type="number" name="seq_no"  class="form-control" placeholder="Enter Sequence" required>
 
-                                        </div>
-                                    </div>
-                                    </div>
-                                    <div class="col-md-12">
+
+                                    <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="field-3" class="form-label">Upload Image</label>
                                             <input type="file" class="form-control" name="ref_file[]"  onchange="viewFile(this, 'main_viewer')" required>
                                         </div>
                                     </div>
+                                </div>
                             <!-- for file preview -->
                             <legend style="color:#7366ff; font-size:19px; font-weight:bold;">Image Preview:</legend>
                             <div class="row pt-4 pb-4 mb-3" style="border: 1px double #22E3ff; border-radius:10px;" id="main_viewer" >

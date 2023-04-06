@@ -112,6 +112,9 @@ class GalleryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deleted = Gallery::where((DB::raw('md5(id)')),$id)->delete();
+        if($deleted){
+            return redirect('admin/gallery/list');
+        }
     }
 }

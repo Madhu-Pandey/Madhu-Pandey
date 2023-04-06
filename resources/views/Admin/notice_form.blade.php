@@ -54,7 +54,7 @@
                            </div>
 
                             <!-- for file preview -->
-                            <legend style="color:#7366ff; font-size:19px; font-weight:bold;">Image Preview:</legend>
+                            <legend style="color:#22E3ff; font-size:19px; font-weight:bold;">Image Preview:</legend>
                             <div class="row pt-4 pb-4 mb-3" style="border: 1px double #22E3ff; border-radius:10px;" id="main_viewer" >
                                 <?php if(isset($data->ref_file) && is_array(json_decode($data->ref_file))) { foreach(json_decode($data->ref_file) as $f){
                                 if(!(file_exists(asset('uploads/'.$f)))) { ?>

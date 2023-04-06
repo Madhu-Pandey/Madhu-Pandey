@@ -99,6 +99,9 @@ class NoticeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deleted = Notice::where((DB::raw('md5(id)')),$id)->delete();
+        if($deleted){
+            return redirect('admin/notice/list');
+        }
     }
 }

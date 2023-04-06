@@ -46,7 +46,7 @@ Route::get('/services', function () {
     return view('services');
 });
 Route::get('/gallery', function () {
-    $data = Gallery::select('*')->orderBy('seq_no','asc')->get();
+    $data = Gallery::select('*')->orderBy('id','desc')->get();
     if($data){
         return view('gallery')->with('gallery',$data);
     }
@@ -58,7 +58,7 @@ Route::get('/team_founders', function () {
     return view('team_founders');
 });
 Route::get('/achievements', function () {
-    $data = Achievement::select('*')->orderBy('seq_no','asc')->get();
+    $data = Achievement::select('*')->orderBy('id','desc')->get();
     if($data){
         return view('achievements')->with('acheve',$data);
     }
@@ -100,18 +100,21 @@ Route::prefix('admin')->group( function() {
         });
         Route::prefix('gallery')->group( function(){
             Route::get('/list',[GalleryController::class,'index']);
+            Route::get('/delete/{id}',[GalleryController::class,'destory']);
             Route::get('/new',[GalleryController::class,'edit']);
             Route::post('/submit',[GalleryController::class,'store']);
             Route::get('/update',[GalleryController::class,'update']);
         });
         Route::prefix('achievements')->group(function(){
             Route::get('/list',[AchiveController::class,'index']);
+            Route::get('/delete/{id}',[AchiveController::class,'destory']);
             Route::get('/new',[AchiveController::class,'create']);
             Route::post('/submit',[AchiveController::class,'store']);
             Route::get('/update',[AchiveController::class,'update']);
         });
         Route::prefix('notice')->group(function(){
             Route::get('/list',[NoticeController::class,'index']);
+            Route::get('/delete/{id}',[NoticeController::class,'destory']);
             Route::get('/new',[NoticeController::class,'create']);
             Route::post('/submit',[NoticeController::class,'store']);
             Route::get('/update',[NoticeController::class,'update']);
