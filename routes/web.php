@@ -101,7 +101,8 @@ Route::prefix('admin')->group( function() {
         Route::prefix('gallery')->group( function(){
             Route::get('/list',[GalleryController::class,'index']);
             Route::get('/delete/{id}',[GalleryController::class,'destory']);
-            Route::get('/new',[GalleryController::class,'edit']);
+            Route::get('/new',[GalleryController::class,'create']);
+            Route::get('/edit/{id}',[GalleryController::class,'edit']);
             Route::post('/submit',[GalleryController::class,'store']);
             Route::get('/update',[GalleryController::class,'update']);
         });

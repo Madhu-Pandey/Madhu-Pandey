@@ -85,7 +85,7 @@ table.table td .add {
                                 <td>{{date_format(date_create($g->created_at),'d-M-Y')}}</td>
                                 <td>{{(isset($g->updated_at) ? date_format(date_create($g->updated_at),'d-M-Y') : 'Not updated yet...')}}</td>
                                 <td> <center>
-                                    <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                    <a class="edit" title="Edit" href="{{ url('admin/gallery/edit/'.md5($g->id)) }}" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                                     <a class="delete" title="Delete"href="{{ url('admin/gallery/delete/'.md5($g->id)) }}" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                                   <a class="view" title="View" data-toggle="tooltip"><i class="material-symbols-outlined">visibility</i></a></center>
                                 </td>
@@ -107,7 +107,7 @@ table.table td .add {
 
 <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatables/datatable.custom.js')}}"></script>
-<script>
+<!-- <script>
     	// Edit row on edit button click
 	$(document).on("click", ".edit", function(){
         $(this).parents("tr").find("td:not(:last-child)").each(function(){
@@ -122,6 +122,6 @@ table.table td .add {
 		$(".add-new").removeAttr("disabled");
     });
 // });
-</script>
+</script> -->
 
 @endsection

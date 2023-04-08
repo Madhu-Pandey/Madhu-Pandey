@@ -47,8 +47,8 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="field-3" class="form-label">Gallery Title</label>
-                                            <input type="text" name="title"  class="form-control" placeholder="Enter Ttile" value="{{isset($data->title)??$data->title}}" required>
-                                            <input type="hidden" name="id" class="form-control" value="{{isset($data->id)??$data->id}}">
+                                            <input type="text" name="title"  class="form-control" placeholder="Enter Ttile" value="{{isset($data->title)?$data->title:''}}" required>
+                                            <input type="hidden" name="id" class="form-control" value="{{isset($data->id)?$data->id:''}}">
 
                                         </div>
                                     </div>
@@ -57,7 +57,7 @@
                                         <div class="mb-3">
                                             <label for="field-3" class="form-label">Upload Image</label>
                                             <input type="file" class="form-control" name="ref_file[]"   onchange="viewFile(this, 'main_viewer')" required>
-                                            <input type="hidden" class="form-control" name="pre_ref_file[]" value="{{isset($data->ref_file)??$data->ref_file}}">
+                                            <input type="hidden" class="form-control" name="old_image" value="{{isset($data->ref_file)?$data->ref_file:''}}">
                                         </div>
                                     </div>
                                 </div>
