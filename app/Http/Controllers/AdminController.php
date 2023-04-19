@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
@@ -31,9 +32,10 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function pass_check($id)
     {
-        //
+        $data = Admin::select('*')->where((DB::raw('id')),$id)->first();
+        // if(Hash::check())
     }
 
     /**

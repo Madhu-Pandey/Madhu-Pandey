@@ -24,7 +24,7 @@
             <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
         </div>
         <div class="card-body">
-            <form action="" onsubmit="return checkForm();">@csrf
+            <form action="">@csrf
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
@@ -42,18 +42,21 @@
                 <div class="col-sm-6">
                     <div class="mb-3">
                     <label class="form-label">Old Password</label>
-                    <input class="form-control" type="text" id="oldP"placeholder="Old Password">
+                    <input class="form-control" type="text" id="oldP" oninput="checkForm()" placeholder="Old Password">
+                    <span id="message1" style="color:red;"></span>
+
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="mb-3">
                     <label class="form-label">New Password</label>
-                    <input class="form-control" type="password" name="passowrd" id="newp" placeholder="New Password">
+                    <input class="form-control" type="password" name="passowrd" oninput="checkForm()" id="newP" placeholder="New Password">
+                    <span id="message1" style="color:red;"></span>
                     </div>
                 </div><div class="col-sm-6">
                     <div class="mb-3">
                     <label class="form-label">Confirm Password</label>
-                    <input class="form-control" type="text" name="Cpassowrd" id="confirmP" placeholder="New Password">
+                    <input class="form-control" type="text" name="Cpassowrd" oninput="checkForm()" id="confirmP" placeholder="New Password">
                     </div>
                 </div>
                 <div class="mb-3">
@@ -76,35 +79,49 @@
 <script>
 function checkForm()
    {
-    var oldP=document.getElementById("oldP").value;
     var newP=document.getElementById("newP").value;
+    var oldP=document.getElementById("oldP").value;
     var confirmP =document.getElementById("confirmP").value;
 
-    if(oldP!=""&&newP!=""&&confirmP!="")
+        $.ajax({
+            type: 'POST',
+            url: {{url('admin/password_check').'/'.md5($data->id)}},
+            data: {
+                oldPass: oldP,
+            },
+            success: function success(res) {
+                if(res!=''){
+                    document.getElementById('message').innerHTML = "<span>This is not same as you old password.</span>";
+                }else{
+                    document.getElementById('message').innerHTML = " ";
+                }
+            },
+        });
+
+    if(newP!=""&&confirmP!="")
     {
       if(oldP!=newP)
       {
         if(newP==confirmP)
          {
-          return true;
+            document.getElementById('message1').innerHTML = " ";
+            return true;
          }
          else
           {
-            alert("Confirm password is not same as you new password.");
+            document.getElementById('message1').innerHTML = "<span>Confirm password is not same as you new password.</span>";
             return false;
           }
       }
       else
      {
-      alert(" This Is Your Old Password,Please Provide A New Password");
+        document.getElementById('message1').innerHTML = "<span> This Is Your Old Password,Please Provide A New Password</span>";
       return false;
      }
     }
-    else
-    {
-     alert("All Fields Are Required");
-     return false;
-    }
+
 }
 </script>
 @endsection
+
+

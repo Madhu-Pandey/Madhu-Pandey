@@ -30,7 +30,7 @@ Route::post('foooter/submit',[EmailSupportController::class,'index']);
 
 Route::get('/', function () {
     $data['notice'] = Notice::all();
-    $data['gallery'] = Gallery::select('*')->orderBy('seq_no','asc')->get();
+    $data['gallery'] = Gallery::select('*')->get();
     return view('index',$data);
 });
 Route::get('/contact', function () {
@@ -87,6 +87,7 @@ Route::prefix('admin')->group( function() {
         Route::post('/in',[AdminController::class,'store']);
         Route::get('register',[AdminController::class,'register'])->middleware('checkLogin');
         Route::post('/submit',[AdminController::class,'register_submit']);
+        Route::post('password_check/{id}',[AdminController::class,'pass_check']);
 
     Route::middleware(['alreadyLogin'])->group(function (){
 
