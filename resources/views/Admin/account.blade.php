@@ -24,7 +24,7 @@
             <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
         </div>
         <div class="card-body">
-            <form action="">@csrf
+            <form action="{{url('admin/profile_update/').md5($data->id)}}" method="POST">@csrf
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
@@ -42,21 +42,21 @@
                 <div class="col-sm-6">
                     <div class="mb-3">
                     <label class="form-label">Old Password</label>
-                    <input class="form-control" type="text" id="oldP" oninput="checkForm()" placeholder="Old Password">
-                    <span id="message1" style="color:red;"></span>
+                    <input class="form-control" type="text" id="oldP" oninput="checkForm();" placeholder="Old Password">
+                    <span id="message" style="color:red;"></span>
 
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="mb-3">
                     <label class="form-label">New Password</label>
-                    <input class="form-control" type="password" name="passowrd" oninput="checkForm()" id="newP" placeholder="New Password">
+                    <input class="form-control" type="password" name="passowrd" oninput="checkForm();" id="newP" placeholder="New Password">
                     <span id="message1" style="color:red;"></span>
                     </div>
                 </div><div class="col-sm-6">
                     <div class="mb-3">
                     <label class="form-label">Confirm Password</label>
-                    <input class="form-control" type="text" name="Cpassowrd" oninput="checkForm()" id="confirmP" placeholder="New Password">
+                    <input class="form-control" type="text" name="Cpassowrd" oninput="checkForm();" id="confirmP" placeholder="New Password">
                     </div>
                 </div>
                 <div class="mb-3">
@@ -76,6 +76,7 @@
 @endsection
 
 @section('script')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script>
 function checkForm()
    {
@@ -83,20 +84,27 @@ function checkForm()
     var oldP=document.getElementById("oldP").value;
     var confirmP =document.getElementById("confirmP").value;
 
-        $.ajax({
-            type: 'POST',
-            url: {{url('admin/password_check').'/'.md5($data->id)}},
-            data: {
-                oldPass: oldP,
-            },
-            success: function success(res) {
-                if(res!=''){
-                    document.getElementById('message').innerHTML = "<span>This is not same as you old password.</span>";
-                }else{
-                    document.getElementById('message').innerHTML = " ";
-                }
-            },
-        });
+    $.ajax({
+    type: 'POST',
+    url: "{{ url('admin/password_check') }}/{{ md5($data->id) }}",
+    data: {
+        "_token": "{{ csrf_token() }}",
+        oldPass: oldP,
+    },
+    success: function(res) {
+        console.log(res);
+        if (res.trim() == "1") {
+            $('#message').html("");
+            openssl_pkey_get_details.style.backgroundColor = "green";
+        } else {
+            $('#message').html("<span>This is not the same as your old password.</span>");
+        }
+    },
+
+    error: function(xhr, status, error) {
+        console.log(xhr.responseText);
+    }
+});
 
     if(newP!=""&&confirmP!="")
     {

@@ -34,9 +34,18 @@ class AdminController extends Controller
      */
     public function pass_check($id)
     {
-        $data = Admin::select('*')->where((DB::raw('id')),$id)->first();
-        // if(Hash::check())
+        $data = Admin::select('*')->where((DB::raw('md5(id)')), $id)->first();
+        if ($data) {
+            // dd($data);
+            $hashedPassword = $data->password;
+            if (Hash::check($_POST['oldPass'], $hashedPassword)) {
+                return true;
+            } else {
+                return $hashedPassword;
+            }
+        }
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -91,6 +100,11 @@ class AdminController extends Controller
 
     public function account(){
         $data = Admin::select('*')->where('id',session()->get('loginId'))->first();
+        return view('Admin.account_0')->with('data',$data);
+    }
+
+    public function account_update(){
+        $data = Admin::select('*')->where('id',session()->get('loginId'))->first();
         return view('Admin.account')->with('data',$data);
     }
     /**
@@ -113,7 +127,15 @@ class AdminController extends Controller
     }
 
     public function update(Request $request, $id){
-        //
+        $data = Admin::where((DB::raw('md5(id)')),$id);
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->password = Hash::make($request->password);
+        $data->updated_at = date('Y-m-d');
+        if($data->save()){
+            return redirect('admin/profile'.md5($data->id));
+        }
+
     }
 
     /**
