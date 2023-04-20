@@ -127,13 +127,17 @@ class AdminController extends Controller
     }
 
     public function update(Request $request, $id){
+        // dd($request->password);
         $data = Admin::where((DB::raw('md5(id)')),$id);
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->password = Hash::make($request->password);
-        $data->updated_at = date('Y-m-d');
-        if($data->save()){
-            return redirect('admin/profile'.md5($data->id));
+        $data->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'updated_at' => date('Y-m-d'),
+        ]);
+        if($data){
+            $data = Admin::select('*')->where('id',session()->get('loginId'))->first();
+            return view('Admin.account_0')->with('data',$data);
         }
 
     }

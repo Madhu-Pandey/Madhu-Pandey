@@ -28091,7 +28091,7 @@ body[class*=dark-] .for-light {
   font-size: 14px;
 }
 .login-card .login-main .theme-form .show-hide {
-  top: 50%;
+  /* top: 50%; */
 }
 
 .faq-accordion .card .btn-link svg {

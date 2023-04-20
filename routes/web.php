@@ -94,7 +94,6 @@ Route::prefix('admin')->group( function() {
 
         Route::get('/dashboard',[AdminController::class,'dashboard']);
         Route::get('/profile',[AdminController::class,'account']);
-        Route::get('/profile_update',[AdminController::class,'account_update']);
         Route::prefix('enquiry')->group( function(){
             Route::get('/list',[EnquiryController::class,'index']);
             Route::get('/new',[EnquiryController::class,'create']);
