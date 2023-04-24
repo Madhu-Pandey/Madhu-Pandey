@@ -1,10 +1,12 @@
 @include('layouts.header')
-
 <style>
-html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-}
+    html,
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+
 </style>
 
 
@@ -33,41 +35,42 @@ html, body {
 
     </div>
 </section>
-@if(isset($notice))
-<section class="section section-lg bg-icon bg-custom bg-custom-left context-dark"
-    data-preset='{"title":"Testimonials","category":"team","reload":true,"id":"testimonials"}'>
-    <div class="bg-custom-inner bg-dark"></div>
-    <div class="container">
-        <h2>
-            <span class="text-logo"><span>Our</span>&nbsp;<span>News</span>
-        </h2>
-        <div class="owl-carousel owl-carousel-1" data-items="1" data-autoplay="true"
-            data-owl="{&quot;nav&quot;:true,&quot;smartSpeed&quot;:1000,&quot;autoplayTimeout&quot;:5000}">
-            @foreach ($notice as $n)
-            <div class="row row-30 row-fix justify-content-center align-items-center">
-                <div class="col-md-6 col-xl-5 offset-xl-1" >
-                    <h4>{{$n->title}}</h4><br>
-                    {{$n->descr}}
-                </div>
-                <div class="col-md-6 col-xl-5 offset-xl-1">
-                    <div class="thumbnail thumbnail-gallery mt-sm-3 mt-md-5">
-                    <?php if(isset($n->ref_file) && is_array(json_decode($n->ref_file))){ ?>
-                        <?php if(!(file_exists(asset('uploads/'.json_decode($n->ref_file)[0])))) { ?>
-                            <a class="thumbnail-media"
-                            data-lightgallery="item" href="{{asset('uploads/'.json_decode($n->ref_file)[0])}}">
-                            <img class="thumbnail-img" src="{{asset('uploads/'.json_decode($n->ref_file)[0])}}" alt=""
-                                width="400" height="450" /></a>
+@if (isset($notice))
+    <section class="section section-lg bg-icon bg-custom bg-custom-left context-dark"
+        data-preset='{"title":"Testimonials","category":"team","reload":true,"id":"testimonials"}'>
+        <div class="bg-custom-inner bg-dark"></div>
+        <div class="container">
+            <h2>
+                <span class="text-logo"><span>Our</span>&nbsp;<span>News</span>
+            </h2>
+            <div class="owl-carousel owl-carousel-1" data-items="1" data-autoplay="true"
+                data-owl="{&quot;nav&quot;:true,&quot;smartSpeed&quot;:1000,&quot;autoplayTimeout&quot;:5000}">
+                @foreach ($notice as $n)
+                    <div class="row row-30 row-fix justify-content-center align-items-center">
+                        <div class="col-md-6 col-xl-5 offset-xl-1">
+                            <h4>{{ $n->title }}</h4><br>
+                            {{ $n->descr }}
+                        </div>
+                        <div class="col-md-6 col-xl-5 offset-xl-1">
+                            <div class="thumbnail thumbnail-gallery mt-sm-3 mt-md-5">
+                                <?php if(isset($n->ref_file) && is_array(json_decode($n->ref_file))){ ?>
+                                <?php if(!(file_exists(asset('uploads/'.json_decode($n->ref_file)[0])))) { ?>
+                                <a class="thumbnail-media" data-lightgallery="item"
+                                    href="{{ asset('uploads/' . json_decode($n->ref_file)[0]) }}">
+                                    <img class="thumbnail-img"
+                                        src="{{ asset('uploads/' . json_decode($n->ref_file)[0]) }}" alt=""
+                                        width="400" height="450" /></a>
                                 <?php } }else{
                         echo("File Not Found...!!");
                     } ?>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            @endforeach
+                @endforeach
 
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 @endif
 <!-- About us-->
 <section class="section section-lg bg-default novi-bg novi-bg-img"
@@ -187,8 +190,8 @@ html, body {
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-xl-5 d-none d-lg-flex"><img src="uploads/49.jpg" alt="" width="510" height="500"
-                    loading="lazy" />
+            <div class="col-lg-6 col-xl-5 d-none d-lg-flex"><img src="uploads/49.jpg" alt="" width="510"
+                    height="500" loading="lazy" />
             </div>
         </div>
     </div>
@@ -206,14 +209,16 @@ html, body {
         <div class="owl-carousel owl-carousel-1" data-items="1" data-autoplay="true"
             data-owl="{&quot;nav&quot;:true,&quot;smartSpeed&quot;:1000,&quot;autoplayTimeout&quot;:5000}">
             @foreach ($gallery as $g)
-            <div class="row row-30 row-fix justify-content-center align-items-center">
-                <div class="col-md-6 col-xl-5 offset-xl-1">
-                    <div class="thumbnail thumbnail-gallery mt-sm-3 mt-md-5"><a class="thumbnail-media"
-                            data-lightgallery="item" href="{{asset('uploads/'.json_decode($g->ref_file)[0])}}"><img class="thumbnail-img" src="{{asset('uploads/'.json_decode($g->ref_file)[0])}}"
-                                alt="" style="width:400px; height:300px;" /></a>
+                <div class="row row-30 row-fix justify-content-center align-items-center">
+                    <div class="col-md-6 col-xl-5 offset-xl-1">
+                        <div class="thumbnail thumbnail-gallery mt-sm-3 mt-md-5"><a class="thumbnail-media"
+                                data-lightgallery="item"
+                                href="{{ asset('uploads/' . json_decode($g->ref_file)[0]) }}"><img class="thumbnail-img"
+                                    src="{{ asset('uploads/' . json_decode($g->ref_file)[0]) }}" alt=""
+                                    style="width:400px; height:300px;" /></a>
+                        </div>
                     </div>
                 </div>
-            </div>
             @endforeach
         </div>
     </div>
@@ -241,6 +246,60 @@ html, body {
 </section>
 <div style="padding-bottom: 10px"></div>
 </div>
+
+{{-- Video Start --}}
+<section class="section section-lg bg-icon bg-custom bg-custom-left context-dark video-presentation-area"
+    data-preset='{"title":"Testimonials","category":"team","reload":true,"id":"testimonials"}'>
+    <div class="bg-custom-inner bg-dark"></div>
+    <div class="container">
+        <h2>
+            <span class="text-logo"><span>Watch </span>&nbsp;<span>this video to know us closely</span>
+        </h2>
+        <div class="owl-carousel owl-carousel-1" data-items="1" data-autoplay="true"
+            data-owl="{&quot;nav&quot;:true,&quot;smartSpeed&quot;:1000,&quot;autoplayTimeout&quot;:5000}">
+            <div class="video-box">
+                <img src="uploads/9.jpg" class="main-image" alt="image">
+                {{-- <a href="{{ URL::asset('assets/video/finalvideo.mp4') }}" class="video-btn popup-youtube"><i
+                                class="	fa fa-play"></i></a> --}}
+                <a href=" {{ URL::asset('assets/video/v2.mp4') }}" class="video-btn popup-youtube"><i
+                        class="	fa fa-play"></i></a>
+            </div>
+
+            <div class="video-box">
+                <img src="uploads/15.jpg" class="main-image" alt="image">
+                {{-- <a href="{{ URL::asset('assets/video/finalvideo.mp4') }}" class="video-btn popup-youtube"><i
+                                class="	fa fa-play"></i></a> --}}
+                <a href=" {{ URL::asset('assets/video/v1.mp4') }}" class="video-btn popup-youtube"><i
+                        class="	fa fa-play"></i></a>
+            </div>
+
+            <div class="video-box">
+                <img src="uploads/15.jpg" class="main-image" alt="image">
+                {{-- <a href="{{ URL::asset('assets/video/finalvideo.mp4') }}" class="video-btn popup-youtube"><i
+                                class="	fa fa-play"></i></a> --}}
+                <a href=" {{ URL::asset('assets/video/v3.mp4') }}" class="video-btn popup-youtube"><i
+                        class="	fa fa-play"></i></a>
+            </div>
+
+            <div class="video-box">
+                <img src="uploads/15.jpg" class="main-image" alt="image">
+                {{-- <a href="{{ URL::asset('assets/video/finalvideo.mp4') }}" class="video-btn popup-youtube"><i
+                                class="	fa fa-play"></i></a> --}}
+                <a href=" {{ URL::asset('assets/video/v4.mp4') }}" class="video-btn popup-youtube"><i
+                        class="	fa fa-play"></i></a>
+            </div>
+
+            <div class="video-box">
+                <img src="uploads/15.jpg" class="main-image" alt="image">
+                {{-- <a href="{{ URL::asset('assets/video/finalvideo.mp4') }}" class="video-btn popup-youtube"><i
+                                class="	fa fa-play"></i></a> --}}
+                <a href=" {{ URL::asset('assets/video/v5.mp4') }}" class="video-btn popup-youtube"><i
+                        class="	fa fa-play"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+{{-- Video End --}}
 
 <!-- Affliations start -->
 <section class="section section-lg bg-default novi-bg novi-bg-img"
@@ -300,7 +359,8 @@ html, body {
 
             <div class="col-sm-3">
                 <center>
-                    <img src=" uploads/ipsf.png" class="card-img-top mb-5" alt="..." style="height:106px; width:107px;">
+                    <img src=" uploads/ipsf.png" class="card-img-top mb-5" alt="..."
+                        style="height:106px; width:107px;">
                     <div class="box-text-content" style="color:#3A3B3C; text-align:center;">
                         IPSF- Indian Pencak Silat Federation National Federation for Pencak Silat sport.</br></br>
                     </div>
@@ -310,6 +370,7 @@ html, body {
 </section>
 
 <!-- Affliations end -->
+
 <section class="section section-lg bg-default novi-bg novi-bg-img"
     data-preset='{"title":"About us 2","category":"about","reload":false,"id":"about-us-2"}'>
 
@@ -325,7 +386,8 @@ html, body {
         <div class="row row-10 row-fix row-content-1 h6">
             <div class="col-sm-4">
                 <center>
-                    <img src=" uploads/65.png" class="card-img-top" alt="..." style="height:200px; width:250px;">
+                    <img src=" uploads/65.png" class="card-img-top" alt="..."
+                        style="height:200px; width:250px;">
                 </center>
             </div>
             <div class="col-md-6 col-lg-7">
@@ -358,57 +420,56 @@ html, body {
 <!--LIVEDEMO_00 -->
 
 <script type="text/javascript">
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-7078796-5']);
-_gaq.push(['_trackPageview']);
-(function() {
-    var ga = document.createElement('script');
-    ga.type = 'text/javascript';
-    ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') +
-        '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(ga, s);
-})
-();
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-7078796-5']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') +
+            '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })
+    ();
 </script>
 <script>
-const noticeBar = document.querySelector('#notice-bar marquee');
-const notices = ['Notice 1', 'Notice 2', 'Notice 3'];
-let currentIndex = 0;
+    const noticeBar = document.querySelector('#notice-bar marquee');
+    const notices = ['Notice 1', 'Notice 2', 'Notice 3'];
+    let currentIndex = 0;
 
-function showNextNotice() {
-    noticeBar.innerHTML = notices[currentIndex];
-    currentIndex = (currentIndex + 1) % notices.length;
-}
+    function showNextNotice() {
+        noticeBar.innerHTML = notices[currentIndex];
+        currentIndex = (currentIndex + 1) % notices.length;
+    }
 
-// Call the showNextNotice function every 5 seconds
-setInterval(showNextNotice, 5000);
+    // Call the showNextNotice function every 5 seconds
+    setInterval(showNextNotice, 5000);
 </script>
 <!-- <script>
-$(function() {
-    var overlay = $('<div id="overlay"></div>');
-    overlay.show();
-    overlay.appendTo(document.body);
-    $('.popup1').show();
-    $('.close').click(function() {
-        $('.popup1').hide();
-        overlay.appendTo(document.body).remove();
-        return false;
-    });
+    $(function() {
+        var overlay = $('<div id="overlay"></div>');
+        overlay.show();
+        overlay.appendTo(document.body);
+        $('.popup1').show();
+        $('.close').click(function() {
+            $('.popup1').hide();
+            overlay.appendTo(document.body).remove();
+            return false;
+        });
 
-    $('.x').click(function() {
-        $('.popup1').hide();
-        overlay.appendTo(document.body).remove();
-        return false;
+        $('.x').click(function() {
+            $('.popup1').hide();
+            overlay.appendTo(document.body).remove();
+            return false;
+        });
     });
-});
-
 </script> -->
 <script>
-$('#myModal').on('shown.bs.modal', function() {
-    $('#myInput').trigger('focus')
-})
+    $('#myModal').on('shown.bs.modal', function() {
+        $('#myInput').trigger('focus')
+    })
 </script>
 {{-- <script>
 $(document).ready(function(){
