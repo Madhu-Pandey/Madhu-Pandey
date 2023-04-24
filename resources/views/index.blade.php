@@ -258,42 +258,24 @@
         <div class="owl-carousel owl-carousel-1" data-items="1" data-autoplay="true"
             data-owl="{&quot;nav&quot;:true,&quot;smartSpeed&quot;:1000,&quot;autoplayTimeout&quot;:5000}">
             <div class="video-box">
-                <img src="uploads/9.jpg" class="main-image" alt="image">
-                {{-- <a href="{{ URL::asset('assets/video/finalvideo.mp4') }}" class="video-btn popup-youtube"><i
-                                class="	fa fa-play"></i></a> --}}
-                <a href=" {{ URL::asset('assets/video/v2.mp4') }}" class="video-btn popup-youtube"><i
-                        class="	fa fa-play"></i></a>
-            </div>
-
-            <div class="video-box">
-                <img src="uploads/15.jpg" class="main-image" alt="image">
+                <img src="uploads/v1.jpeg" class="main-image" alt="image">
                 {{-- <a href="{{ URL::asset('assets/video/finalvideo.mp4') }}" class="video-btn popup-youtube"><i
                                 class="	fa fa-play"></i></a> --}}
                 <a href=" {{ URL::asset('assets/video/v1.mp4') }}" class="video-btn popup-youtube"><i
                         class="	fa fa-play"></i></a>
             </div>
-
             <div class="video-box">
-                <img src="uploads/15.jpg" class="main-image" alt="image">
+                <img src="uploads/v2.jpeg" class="main-image" alt="image">
                 {{-- <a href="{{ URL::asset('assets/video/finalvideo.mp4') }}" class="video-btn popup-youtube"><i
                                 class="	fa fa-play"></i></a> --}}
-                <a href=" {{ URL::asset('assets/video/v3.mp4') }}" class="video-btn popup-youtube"><i
+                <a href=" {{ URL::asset('assets/video/v2.mp4') }}" class="video-btn popup-youtube"><i
                         class="	fa fa-play"></i></a>
             </div>
-
             <div class="video-box">
-                <img src="uploads/15.jpg" class="main-image" alt="image">
+                <img src="uploads/v4.jpeg" class="main-image" alt="image">
                 {{-- <a href="{{ URL::asset('assets/video/finalvideo.mp4') }}" class="video-btn popup-youtube"><i
                                 class="	fa fa-play"></i></a> --}}
                 <a href=" {{ URL::asset('assets/video/v4.mp4') }}" class="video-btn popup-youtube"><i
-                        class="	fa fa-play"></i></a>
-            </div>
-
-            <div class="video-box">
-                <img src="uploads/15.jpg" class="main-image" alt="image">
-                {{-- <a href="{{ URL::asset('assets/video/finalvideo.mp4') }}" class="video-btn popup-youtube"><i
-                                class="	fa fa-play"></i></a> --}}
-                <a href=" {{ URL::asset('assets/video/v5.mp4') }}" class="video-btn popup-youtube"><i
                         class="	fa fa-play"></i></a>
             </div>
         </div>
