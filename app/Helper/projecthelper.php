@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 
 function uploads_File(Request $request, $File,$path,$prefix = '',$ref_file = ''){
-    // dd($File);
+    // dd($request->file($File));
     $file_path=array();
     if($request->hasFile($File)){
         foreach($request->file($File) as $new){
@@ -36,9 +36,20 @@ function uploads_File(Request $request, $File,$path,$prefix = '',$ref_file = '')
             }
         }
     }else{
-        return header('Location: ' . $_SERVER['HTTP_REFERER']);
-    }
+        foreach ($request->file($File) as $new) {
+            $ext = $new->getClientOriginalExtension();
+            if ($ext == 'mp4') {
+                $filename = $prefix . '_' . time() . '.' . $ext;
+                $new->storeAs($path, $filename, ['disk' => 'uploads']);
+                array_push($file_path, $filename);
+                dd($file_path);
+            } else {
+                // Handle error if uploaded file is not an mp4 video
+                return response()->json(['error' => 'Invalid file type. Please upload an MP4 video.'], 400);
+            }
+        }
     return $file_path;
+}
 }
 
 function is_image(string $filename) {
