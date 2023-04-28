@@ -36,20 +36,16 @@ function uploads_File(Request $request, $File,$path,$prefix = '',$ref_file = '')
             }
         }
     }else{
-        foreach ($request->file($File) as $new) {
-            $ext = $new->getClientOriginalExtension();
-            if ($ext == 'mp4') {
-                $filename = $prefix . '_' . time() . '.' . $ext;
-                $new->storeAs($path, $filename, ['disk' => 'uploads']);
-                array_push($file_path, $filename);
-                dd($file_path);
-            } else {
-                // Handle error if uploaded file is not an mp4 video
-                return response()->json(['error' => 'Invalid file type. Please upload an MP4 video.'], 400);
+        if($request->file($File)) {
+            foreach($request->file($File) as $new){
+                $file = $new;
+                $file_path = $prefix.'_'.uniqid().mt_rand(0,999999999);
+                $file->move('uploads'.$file_path, $file->getClientOriginalName());
+                // dd($file);
             }
         }
+    }
     return $file_path;
-}
 }
 
 function is_image(string $filename) {
