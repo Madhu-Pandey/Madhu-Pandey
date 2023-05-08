@@ -36,7 +36,6 @@ class AdminController extends Controller
     {
         $data = Admin::select('*')->where((DB::raw('md5(id)')), $id)->first();
         if ($data) {
-            // dd($data);
             $hashedPassword = $data->password;
             if (Hash::check($_POST['oldPass'], $hashedPassword)) {
                 return true;
@@ -55,6 +54,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
+        $error = [];
         $data = Admin::where('email',$request->email)->first();
         // dd($data);
         $pass = $request->login['password'];
@@ -64,9 +64,13 @@ class AdminController extends Controller
                 session()->put('loginId', $data->id);
                 session()->put('name', $data->name);
                 return redirect('admin/dashboard');
+            }else{
+                $error['pass'] = false;
+                return view('Admin.login')->with('error_data', json_encode($error));
             }
         }else{
-            abort('Something want wrong..!!');
+            $error['email'] = false;
+            return view('Admin.login')->with('error_data', json_encode($error));
         }
     }
 

@@ -21,11 +21,15 @@
                      <div class="form-group">
                         <label class="col-form-label">Email Address</label>
                         <input class="form-control" type="email" name="email" required="" placeholder="Test@gmail.com">
+                        <span id="error_data_email" style="color:red ; display:none">** Email Address is
+                                        Incorrect</span>
                      </div>
                      <div class="form-group">
                         <label class="col-form-label">Password</label>
                         <input class="form-control" type="password" name="login[password]" required="" placeholder="*********">
                         <div class="show-hide"><span class="show">                         </span></div>
+                        <span id="error_data_pass" style="color:red ; display:none">** Password is
+                                        Incorrect</span>
                      </div>
                      <div class="form-group mb-0">
 
@@ -40,7 +44,23 @@
       </div>
    </div>
 </div>
+<input type="hidden" id="error_data" value="{{ isset($error_data) ? $error_data : 0 }}">
 @endsection
 
 @section('script')
+<script>
+    $(document).ready(function () {
+        if (document.getElementById('error_data').value != 0) {
+            const e_data = JSON.parse((document.getElementById('error_data').value));
+            $.each(e_data, function (key, val) {
+                if (val == false) {
+                    document.getElementById('error_data_' + key).style.display = 'block';
+                    document.getElementById('login_'+key).style.borderColor = 'red';
+
+                }
+            });
+        }
+
+    });
+</script>
 @endsection
